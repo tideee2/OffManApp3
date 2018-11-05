@@ -1,3 +1,45 @@
 <ion-content padding>
-  <canvas #doughnutCanvas id="main-canvas" width="200" height="200"> </canvas>
+  <div text-center class="page-title">
+    <div>Office</div>
+    <div>Management</div>
+  </div>
+  <ion-list>
+    <form [formGroup]="loginForm">
+      <div class="input-container">
+        <ion-item no-padding>
+          <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
+        </ion-item>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert alert-danger" style="color:#F53D3D">
+          <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
+        </div>
+      </div>
+      <div class="input-container">
+        <ion-item no-padding>
+          <ion-input name="password" type="password" formControlName="password"
+                     placeholder="Enter password"></ion-input>
+        </ion-item>
+        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                 class="alert alert-danger">
+          <span class="text-ios-danger">{{ getErrorMessage('password') }}</span>
+        </div>
+      </div>
+      <ion-label text-right class="forgot-btn" no-lines no-padding clear>
+        <span (click)="forgotClick()">Forgot password?</span>
+      </ion-label>
+      <ion-item class="submit-btn-container" text-center no-lines>
+        <button ion-button class="submit-btn ion-col-3" expand="block" no-padding
+                    (click)="submitLogin()" clear [disabled]="!loginForm.valid">Login
+        </button>
+      </ion-item>
+    </form>
+
+  </ion-list>
+  <section class="bottom-buttons" text-center>
+
+      <ion-label color="white" (click)="registerClick()">Have no account yet?</ion-label>
+
+      <ion-label color="white" (click)="submitLogin('loxley.gabryel@lnvoke.net','111111')">Test login</ion-label>
+
+  </section>
+
 </ion-content>

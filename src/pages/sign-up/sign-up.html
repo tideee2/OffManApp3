@@ -1,18 +1,65 @@
-<!--
-  Generated template for the SignUpPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>sign-up</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
+  <div text-center class="page-title">
+    <div>Office</div>
+    <div>Management</div>
+  </div>
+  <ion-list>
+    <form [formGroup]="regForm">
+      <div class="input-container">
+        <ion-item>
+          <!--<ion-label position="fixed">Enter username</ion-label>-->
+          <ion-input class="form-control" id="username" formControlName="username" placeholder="Enter username"></ion-input>
+        </ion-item>
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" color="alert">
+          <span class="text-ios-danger">{{ getErrorMessage('username') }}</span>
+        </div>
+      </div>
+      <div class="input-container">
+        <ion-item>
+          <!--<ion-label position="fixed">Enter email</ion-label>-->
+          <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
+        </ion-item>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert">
+          <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
+        </div>
+      </div>
+      <div formGroupName="matchingPasswords">
+        <div class="input-container">
+          <ion-item>
+            <!--<ion-label position="fixed">Enter password</ion-label>-->
+            <ion-input name="password" type="password" formControlName="password" placeholder="Enter password"></ion-input>
+          </ion-item>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" color="danger" class="alert alert-danger">
+            <span class="text-ios-danger">{{ getErrorMessage('password') }}</span>
+          </div>
+        </div>
+        <div class="input-container">
+          <ion-item>
+            <!--<ion-label position="fixed">Confirm password</ion-label>-->
+            <ion-input name="confirm_password" type="password" formControlName="confirm_password" placeholder="Confirm password"></ion-input>
+          </ion-item>
+          <div *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger" class="alert alert-danger">
+            <span class="text-ios-danger">{{ getErrorMessage('confirm_password') }}</span>
+          </div>
+          <div *ngIf="password.valid && confirm_password.valid && regForm.get('matchingPasswords').invalid" class="alert">
+              <span class="text-ios-danger">Passwords do not match</span>
+          </div>
+        </div>
+      </div>
+      <!--<div class="input-container">-->
+        <!--<ion-row *ngIf="password.valid && confirm_password.valid && regform.get('matchingPasswords').invalid">-->
+          <!--<ion-col class="error-msg">-->
+            <!--<sup ion-text>Passwords do not match</sup>-->
+          <!--</ion-col>-->
+        <!--</ion-row>-->
+      <!--</div>-->
+      <ion-label class="submit-btn-container" text-center>
+        <button ion-button class="submit-btn ion-col-3" no-padding
+                (click)="submitRegister()" clear [disabled]="!regForm.valid">Create account
+        </button>
+      </ion-label>
+    </form>
 
+  </ion-list>
+  <ion-label class="login-btn" text-center (click)="loginClick()">Already have one? Sign in</ion-label>
 </ion-content>
