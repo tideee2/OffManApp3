@@ -4,16 +4,87 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<!--<ion-header>-->
 
-  <ion-navbar>
-    <ion-title>main</ion-title>
-  </ion-navbar>
+  <!--<ion-navbar>-->
+    <!--<ion-title>main</ion-title>-->
+  <!--</ion-navbar>-->
 
-</ion-header>
+<!--</ion-header>-->
 
 
-<ion-content padding>
-  <canvas #doughnutCanvas width="100%" height="150px"> </canvas>
 
+<ion-content no-padding overflow-scroll="true" id="qq">
+
+  <ion-card class="svg-card">
+    <ion-card-content class="price-card">
+      <div class="canvas-container">
+        <canvas #doughnutCanvas width="120%" height="150px"></canvas>
+      </div>
+
+      <div class="price-card-content">
+        <div class="qq">
+          <div class="price-card-title">
+            Total
+          </div>
+          <div class="price-card-cost">
+            <!--{{transService.balance}} -->
+            2000 грн
+          </div>
+          <div class="price-card-inf">
+            <ion-icon name="ios-information-circle-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <section padding class="product-list">
+    <ion-card class="inf-list">
+      <ion-list>
+        <div class="list-title"><span>Transaction history</span>
+          <ion-icon name="ios-funnel"></ion-icon>
+        </div>
+        <div *ngFor="let x of this.storage.transactions; let i = index">
+          <!--<div>{{i+1}})</div>-->
+          <div class="transaction-container" (click)="showButton(container)" #container tappable>
+            <div class="col">
+              <div class="description">{{x.description !== null ? x.description : ''}}</div>
+              <div class="datetime">{{x.date | date }}</div>
+            </div>
+            <div class="col" *ngIf="!showEditButton">
+              <div [className]="'cost ' + (x.type === 'decrease' ? 'decrease-color' : 'increase-color')">
+                {{x.cost}} грн
+              </div>
+              <div class="edit-button" (click)="editPurchase(x)" >
+                <ion-icon name="md-create"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-list>
+
+      <ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngIf="showInfiniteScroll">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-card>
+  </section>
+  <ion-fab bottom center edge class="add-btn">
+    <button ion-fab routerDirection="forward" (click)="addPurchase()" color="warning">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="footer-toolbar">
+    <button ion-button icon-only (click)="goToSettings()" align-items-start clear>
+      <ion-icon ios="ios-settings" md="md-settings"></ion-icon>
+    </button>
+    <button ion-button icon-only align-items-end clear>
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>

@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SignUpPage} from "../sign-up/sign-up";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {ForgotPage} from "../forgot/forgot";
+import {MainPage} from "../main/main";
+import {StorageProvider} from "../../providers/storage/storage";
 
 /**
  * Generated class for the LoginPage page.
@@ -27,7 +29,8 @@ export class LoginPage {
   constructor(public formBuilder: FormBuilder, public alertController: AlertController,
               public navCtrl: NavController,
               public auth: AuthServiceProvider,
-              // public storageSrv: StorageService, public transService: TransactionsService
+              public storageSrv: StorageProvider,
+              // public transService: TransactionsService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -79,32 +82,26 @@ export class LoginPage {
     this.auth.some();
     this.auth.loginUser(_email, _pass).subscribe( (value: any) => {
         console.log(value);
-        // this.presentAlert('Message', 'Login is successful. Welcome.');
-        // this.storageSrv.balance = value.user.balance;
-        // this.storageSrv.email = value.user.email;
-        // this.storageSrv.name = value.user.name;
-        // this.storageSrv.userId = value.user._id;
-        // this.storageSrv.token = value.token;
-        // localStorage.setItem('x-access-token', value.token);
-        // localStorage.setItem('balance', value.user.balance);
-        // localStorage.setItem('id', value.user._id);
-        // localStorage.setItem('name', value.user.name);
-        // localStorage.setItem('email', value.user.email);
-        // this.transService.balance = value.user.balance;
-        // this.transService.email = value.user.email;
-        // this.transService.id = value.user._id;
-        // this.transService.token = value.token;
-        // this.transService.name = value.user.name;
-        // console.log(value);
-        // this.router.navigate(['main']);
+        this.presentAlert('Message', 'Login is successful. Welcome.');
+        this.storageSrv.balance = value.user.balance;
+        this.storageSrv.email = value.user.email;
+        this.storageSrv.name = value.user.name;
+        this.storageSrv.userId = value.user._id;
+        this.storageSrv.token = value.token;
+        localStorage.setItem('x-access-token', value.token);
+        localStorage.setItem('balance', value.user.balance);
+        localStorage.setItem('id', value.user._id);
+        localStorage.setItem('name', value.user.name);
+        localStorage.setItem('email', value.user.email);
+        this.navCtrl.setRoot(MainPage);
       },
       error => {
         console.log(error);
         if (error.status === 200) {
-          // this.presentAlert('Message', error.error.text + ' and login');
+          this.presentAlert('Message', error.error.text + ' and login');
           // this.router.navigate(['login']);
         } else {
-          // this.presentAlert('Error', error.error);
+          this.presentAlert('Error', error.error);
         }
       });
   }
@@ -122,9 +119,16 @@ export class LoginPage {
   //
   //   await alert.present();
   // }
+  presentAlert(title, text) {
+    let alert = this.alertController.create({
+      title: title,
+      subTitle: text,
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
 
   registerClick() {
-    // this.navCtrl.push(SignUpPage);
     this.navCtrl.push(SignUpPage);
   }
 

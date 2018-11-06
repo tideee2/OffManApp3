@@ -1,6 +1,19 @@
-import {Component, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, Renderer, ViewChild} from '@angular/core';
+import {
+  App,
+  Content,
+  InfiniteScroll,
+  IonicPage,
+  ModalController,
+  NavController,
+  NavParams,
+  Platform
+} from 'ionic-angular';
 import {Chart} from 'chart.js';
+import {AddTransactionPage} from "../add-transaction/add-transaction";
+import {SettingsPage} from "../settings/settings";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {StorageProvider} from "../../providers/storage/storage";
 
 /**
  * Generated class for the MainPage page.
@@ -16,24 +29,125 @@ import {Chart} from 'chart.js';
 })
 export class MainPage {
   @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+  @ViewChild(Content) content: Content;
+
+  public token: string;
+  public balance: number = 1000;
+  public page = 1;
+  private app: App = null;
+  public showEditButton = false;
+  public containerClass = 'transaction-container';
+  public showInfiniteScroll = true;
+  public items = [];
 
   doughnutChart: any;
 
-  balance: number = 1000;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public modalController: ModalController,
+              public auth: AuthServiceProvider,
+              public storage: StorageProvider,
+              // public transService: TransactionsService, public renderer: Renderer, public storageSrv: StorageService,
+              public platform: Platform) {
+    this.auth.getTransactions('', 1)
+      .subscribe((data) => {
+          this.storage.transactions = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MainPage');
     this.displayChart();
+    //
+    // this.token = this.storageSrv.token;
+    // this.balance = parseInt(localStorage.getItem('balance'), 10);
+    // // this.balance = this.storageSrv.balance;
+    //
+    // // window.onscroll = function (e) {
+    // //     console.log('fff');
+    // // };
+    // this.transService.getTransactions('', 1)
+    //   .subscribe((data) => {
+    //       this.transService.transactions = data;
+    //       console.log(data);
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     });
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      this.page++;
+      this.auth.getTransactions('', this.page)
+        .subscribe((data) => {
+          data.splice(10,data.length-10);
+            this.storage.transactions = this.storage.transactions.concat(data);
+            console.log(data);
+            if (data.length < 10) {
+              // this.infiniteScroll.enabled = true;
+              this.showInfiniteScroll = false;
+              this.page--;
+            }
+          },
+          error => {
+            console.log(error);
+          });
+      console.log('Async operation has ended');
+      event.complete();
+    }, 1500);
+  }
+
+  async addPurchase() {
+    // console.log(this.content.scrollByPoint(100, 200, 2000));
+    // const x: HTMLElement = document.querySelectorAll('ion-header')[0];
+    // console.log(x.className);
+    // console.log(x.content)
+    // x.className.concat(' haeder-el');
+    // x.className = (x.className.indexOf('hide-header') >= 0) ? x.className.replace(' hide-header', '') :
+    //     x.className.concat(' hide-header');
+    this.navCtrl.push(AddTransactionPage,{
+      id: "123",
+      name: "Carl"
+    });
+    this.content.ionScroll.subscribe(($event: any) => {
+      const scrollTop: number = $event.scrollTop;
+      console.log('scrollTop');
+    });
+
+    // const modal = await this.modalController.create({
+    //     component: AddPurchasePage,
+    //     componentProps: {data: this.items, money: this.balance}
+    // });
+    // return await modal.present();
+  }
+
+  showButton(x: HTMLElement) {
+    console.log(x);
+    // @ts-ignore
+    document.querySelectorAll('.transaction-container').forEach(q => { if (q !== x) {q.className = 'transaction-container'; } });
+    // x.className = (!~(x.className.indexOf('enable-edit'))) ? 'transaction-container enable-edit' : 'transaction-container' ;
+    x.className = (!~(x.className.indexOf('enable-edit'))) ? 'transaction-container enable-edit' : 'transaction-container' ;
+  }
+
+  editPurchase(transaction) {
+    this.navCtrl.push(AddTransactionPage,{
+      id: "555",
+      name: "Carl"
+    });
+  }
+
+  goToSettings () {
+    this.navCtrl.push(SettingsPage);
   }
 
   displayChart() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
-      width: 400,
-      height: 200,
       data: {
         datasets: [{
           data: [this.balance],
@@ -52,7 +166,7 @@ export class MainPage {
             bottom: 0
           }
         },
-        cutoutPercentage: 95,
+        cutoutPercentage: 97,
         radius: 5,
         legend: {
           display: false

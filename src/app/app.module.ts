@@ -15,6 +15,7 @@ import {SettingsPage} from "../pages/settings/settings";
 import {SignUpPage} from "../pages/sign-up/sign-up";
 import {AuthServiceProvider} from '../providers/auth-service/auth-service';
 import {HttpClientModule} from "@angular/common/http";
+import { StorageProvider } from '../providers/storage/storage';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {HttpClientModule} from "@angular/common/http";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthServiceProvider
+    AuthServiceProvider,
+    StorageProvider
   ]
 })
 export class AppModule {

@@ -1,18 +1,51 @@
-<!--
-  Generated template for the SettingsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>settings</ion-title>
+    <ion-title>Settings</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
+  <ion-list>
+    <div class="img-container">
+      <img src="../../assets/icon/niger.png">
+    </div>
+    <form [formGroup]="changePassForm">
+      <div class="input-container">
+        <ion-item *ngIf="!isEditName" no-lines>
+          <ion-label>
+            <span> {{username.value}}</span>
+            <ion-icon name="md-create" *ngIf="!isEditName" (click)="editClick(qqq)"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="isEditName" no-lines>
+          <ion-input class="form-control" id="username" formControlName="username"
+                     placeholder="Enter username" #qqq></ion-input>
+          <ion-icon name="md-checkmark" *ngIf="isEditName" (click)="changeUsername()" class="check-icon"></ion-icon>
+        </ion-item>
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" color="danger"
+             class="alert alert-danger">
+          <span class="error-msg">{{ getErrorMessage('username') }}</span>
+        </div>
+      </div>
+      <ion-item class="btn change-btn" no-lines>
+        <button ion-button
+          size="normal"
+          class="submit-btn ion-col-3"
+          color="transparent"
+          (click)="goToChangePass()">
+          Change password
+        </button>
+      </ion-item>
+      <ion-item class="btn logout-btn" text-center no-lines>
+        <button ion-button
+          size="normal"
+          class="submit-btn ion-col-3"
+          color="transparent"
+          text-center
+          (click)="logout()">
+          Logout
+        </button>
+      </ion-item>
+    </form>
+  </ion-list>
 </ion-content>
