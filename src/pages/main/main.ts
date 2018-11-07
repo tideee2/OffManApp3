@@ -46,9 +46,8 @@ export class MainPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public modalController: ModalController,
               public auth: AuthServiceProvider,
-              public storage: StorageProvider,
-              // public transService: TransactionsService, public renderer: Renderer, public storageSrv: StorageService,
-              public platform: Platform) {
+              public storage: StorageProvider) {
+
     this.auth.getTransactions('', 1)
       .subscribe((data) => {
           this.storage.transactions = data;
@@ -102,28 +101,13 @@ export class MainPage {
     }, 1500);
   }
 
-  async addPurchase() {
-    // console.log(this.content.scrollByPoint(100, 200, 2000));
-    // const x: HTMLElement = document.querySelectorAll('ion-header')[0];
-    // console.log(x.className);
-    // console.log(x.content)
-    // x.className.concat(' haeder-el');
-    // x.className = (x.className.indexOf('hide-header') >= 0) ? x.className.replace(' hide-header', '') :
-    //     x.className.concat(' hide-header');
-    this.navCtrl.push(AddTransactionPage,{
-      id: "123",
-      name: "Carl"
-    });
-    this.content.ionScroll.subscribe(($event: any) => {
-      const scrollTop: number = $event.scrollTop;
-      console.log('scrollTop');
-    });
-
-    // const modal = await this.modalController.create({
-    //     component: AddPurchasePage,
-    //     componentProps: {data: this.items, money: this.balance}
-    // });
-    // return await modal.present();
+  addPurchase(transaction?) {
+    console.log(transaction);
+    transaction ? this.navCtrl.push(AddTransactionPage,{
+      cost: transaction.cost,
+      type: transaction.type,
+      desc: transaction.description
+    }) : this.navCtrl.push(AddTransactionPage);
   }
 
   showButton(x: HTMLElement) {

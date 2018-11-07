@@ -5,19 +5,16 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list class="select-container">
-    <ion-item no-padding no-border>
-      <ion-label [hidden]="true">Select type</ion-label>
-      <ion-select placeholder="Select One" slot="start" [(ngModel)]="transactionType" #select>
-        <ion-option value="decrease">Outcoming</ion-option>
-        <ion-option value="increase">Incoming</ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
 
-  <ion-list>
     <form [formGroup]="transactionForm">
-      <ion-item-group>
+      <ion-item no-padding no-border>
+        <ion-label [hidden]="true">Select type</ion-label>
+        <ion-select placeholder="Select One" slot="start" #select formControlName="transactionType">
+          <ion-option value="decrease">Outcoming</ion-option>
+          <ion-option value="increase">Incoming</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="input-container">
         <ion-item no-padding no-border>
           <ion-label>Price</ion-label>
           <ion-input name="cost" formControlName="cost" placeholder=""></ion-input>
@@ -28,16 +25,29 @@
         </ion-item>
         <div *ngIf="cost.invalid && (cost.dirty || cost.touched)" color="danger"
              class="alert alert-danger">
-          <span class="error-msg">{{ getErrorMessage('cost') }}</span>
+          <span class="text-ios-danger">{{ getErrorMessage('cost') }}</span>
         </div>
         <div *ngIf="description.invalid && (description.dirty || description.touched)" color="danger" class="alert alert-danger">
-          <span class="error-msg">{{ getErrorMessage('description') }}</span>
+          <span class="text-ios-danger">{{ getErrorMessage('description') }}</span>
         </div>
-      </ion-item-group>
+      </div>
     </form>
-  </ion-list>
-  <section>
-    <button ion-button color="transparent" (click)="cancel()">Cancel</button>
-    <button ion-button color="orange" (click)="submitPurchase()" no-shadow>Submit</button>
-  </section>
+
+  <div class="input-container buttons-wrap">
+    <ion-row>
+      <ion-col size="6"><button ion-button clear full (click)="cancel()">Cancel</button></ion-col>
+      <ion-col size="6">
+        <button
+          ion-button
+          clear
+          full
+          (click)="submitPurchase()"
+          class="sbt-btn"
+          [disabled]="!transactionForm.valid"
+        >
+          Submit
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>

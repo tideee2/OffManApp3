@@ -17,30 +17,35 @@
             <ion-icon name="md-create" *ngIf="!isEditName" (click)="editClick(qqq)"></ion-icon>
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="isEditName" no-lines>
-          <ion-input class="form-control" id="username" formControlName="username"
-                     placeholder="Enter username" #qqq></ion-input>
-          <ion-icon name="md-checkmark" *ngIf="isEditName" (click)="changeUsername()" class="check-icon"></ion-icon>
-        </ion-item>
+        <div class="input-wrapper" *ngIf="isEditName">
+          <ion-item  no-lines>
+            <ion-input class="form-control" id="username" formControlName="username"
+                       placeholder="Enter username" #qqq></ion-input>
+          </ion-item>
+          <button ion-button clear [disabled]="!changePassForm.valid" class="confirm-btn">
+            <ion-icon name="md-checkmark" *ngIf="isEditName" (click)="changeUsername()" class="check-icon"></ion-icon>
+          </button>
+        </div>
         <div *ngIf="username.invalid && (username.dirty || username.touched)" color="danger"
              class="alert alert-danger">
           <span class="error-msg">{{ getErrorMessage('username') }}</span>
         </div>
       </div>
-      <ion-item class="btn change-btn" no-lines>
+      <ion-item class="btn change-btn" no-lines (click)="goToChangePass()">
         <button ion-button
+          clear
           size="normal"
           class="submit-btn ion-col-3"
           color="transparent"
-          (click)="goToChangePass()">
+          >
           Change password
         </button>
       </ion-item>
       <ion-item class="btn logout-btn" text-center no-lines>
         <button ion-button
+          color="danger"
           size="normal"
           class="submit-btn ion-col-3"
-          color="transparent"
           text-center
           (click)="logout()">
           Logout

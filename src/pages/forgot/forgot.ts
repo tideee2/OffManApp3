@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 /**
  * Generated class for the ForgotPage page.
@@ -20,7 +21,9 @@ export class ForgotPage {
   public forgotForm: FormGroup;
   public validation_messages;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder,
+              public authSrv: AuthServiceProvider, public alertController: AlertController,
+  ) {
     this.forgotForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -48,4 +51,29 @@ export class ForgotPage {
     return res[0];
   }
 
+  submitForgot(): void {
+    this.authSrv.forgotPassword(this.email.value).subscribe( (value) => {
+        console.log(value);
+        console.log('qqq');
+        this.presentAlert('Message', 'Email has been sent');
+        this.navCtrl.pop();
+      },
+      error => {
+        console.log(error);
+        this.presentAlert('Error', error.statusText );
+      });
+  }
+
+  async presentAlert(headerText: string, messageText: string) {
+    const alert = await this.alertController.create({
+      title: headerText,
+      message: messageText,
+      buttons: [
+        {
+          text: 'Ok',
+        }]
+    });
+
+    await alert.present();
+  }
 }

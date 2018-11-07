@@ -1,3 +1,45 @@
 page-add-transaction {
-
+  ion-header {
+    ion-navbar.toolbar {
+      button,
+      .toolbar-title{
+        color: #fff;
+      }
+      .toolbar-background {
+        background: #383840;
+      }
+    }
+  }
+  ion-content {
+    background-color: #33333D !important;
+    .input-container {
+      height: 10vh;
+    }
+    ion-item {
+      padding: 0 !important;
+      .item-inner {
+        background-color: #33333D !important;
+        padding: 0 !important;
+        input,
+        ion-label,
+        .select-text,
+        .select-placeholder,
+        .select-icon-inner {
+          color: #fff!important;
+        }
+      }
+      input {
+        outline: none;
+      }
+    }
+    .buttons-wrap {
+      margin-top:15vh;
+      button {
+        color: #fff;
+        &.sbt-btn {
+          background-color: #F9AA33!important;
+        }
+      }
+    }
+  }
 }

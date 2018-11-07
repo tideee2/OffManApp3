@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MainPage} from "../main/main";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {StorageProvider} from "../../providers/storage/storage";
 
 /**
  * Generated class for the AddTransactionPage page.
@@ -19,18 +21,19 @@ export class AddTransactionPage {
   @Input() money: any;
   @Input() data: any;
 
-  public transactionType = '';
+  // public transactionType = '';
   public transactionForm: FormGroup;
   public validation_messages;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public modalController: ModalController,
-              // public transService: TransactionsService,
+              public auth: AuthServiceProvider,
               public formBuilder: FormBuilder,
-              // public storageSrv: StorageService,
+              public storageSrv: StorageProvider,
               // private route: ActivatedRoute,
   ) {
     this.transactionForm = this.formBuilder.group({
+      transactionType: ['', Validators.required],
       cost: ['', Validators.compose([
         Validators.required,
         Validators.pattern('[0-9 ]*')
@@ -53,14 +56,12 @@ export class AddTransactionPage {
         maxlength: 'Description cannot be more than 20 characters long'
       },
     };
-    // console.log(this.route.snapshot.params._id);
-    // console.log(this.navParams.get('id'));
-
-    // const x = this.route.snapshot.params;
-    // if (x._id !== undefined) {
-    //   this.transactionForm.setValue({cost: x.cost, description: x.description});
-    //   this.transactionType = x.type;
-    // }
+    // @ts-ignore
+    this.transactionForm.controls.cost.value = this.navParams.get('cost');
+    // @ts-ignore
+    this.transactionForm.controls.description.value = this.navParams.get('desc');
+    // @ts-ignore
+    this.transactionForm.controls.transactionType.value = this.navParams.get('type');
   }
 
   ionViewDidLoad() {
@@ -71,7 +72,12 @@ export class AddTransactionPage {
   get cost() {
     return this.transactionForm.get('cost');
   }
-
+  get transactionType() {
+    return this.transactionForm.get('transactionType');
+  }
+  set transactionType(val) {
+    this.transactionForm.value.transactionType = val;
+  }
   get description() {
     return this.transactionForm.get('description');
   }
@@ -93,18 +99,15 @@ export class AddTransactionPage {
   }
 
   submitPurchase() {
-    // this.transService.addTransactions(this.description.value || 'balance increase', this.transactionType, this.cost.value)
-    //   .subscribe(value => {
-    //       console.log(value);
-    //       const addCost = +localStorage.getItem('balance') + ((this.transactionType === 'increase')
-    //         ? +this.cost.value : 0 - +this.cost.value);
-    //       localStorage.setItem('balance', '' + addCost);
-    //       this.transService.balance += value.cost;
-    //       this.transService.transactions.unshift(value);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
+    this.auth.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
+      .subscribe(value => {
+          console.log(value);
+          this.storageSrv.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
+          this.storageSrv.transactions.unshift(value);
+        },
+        error => {
+          console.log(error);
+        });
     this.navCtrl.pop();
   }
 

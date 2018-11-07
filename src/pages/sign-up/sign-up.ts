@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 /**
  * Generated class for the SignUpPage page.
@@ -23,7 +24,7 @@ export class SignUpPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public formBuilder: FormBuilder,
-              // public auth: AuthService,
+              public auth: AuthServiceProvider,
               public alertController: AlertController,
   ) {
     this.regForm = formBuilder.group({
@@ -133,20 +134,20 @@ export class SignUpPage {
   }
 
   submitRegister(): void {
-    // this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
-    //     console.log(value);
-    //     this.presentAlert('Message', 'Register is successful. Check your email');
-    //   },
-    //   error => {
-    //     console.log(error);
-    //     if (error.status === 200) {
-    //       this.presentAlert('Message', error.error.text + ' and login');
-    //       this.router.navigate(['login']);
-    //     } else {
-    //       console.log(error);
-    //       this.presentAlert('Error', error.statusText);
-    //     }
-    //   });
+    this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
+        console.log(value);
+        this.presentAlert('Message', 'Register is successful. Check your email');
+      },
+      error => {
+        console.log(error);
+        if (error.status === 200) {
+          this.presentAlert('Message', error.error.text + ' and login');
+          this.navCtrl.pop();
+        } else {
+          console.log(error);
+          this.presentAlert('Error', error.error);
+        }
+      });
   }
 
   qq() {
@@ -154,19 +155,19 @@ export class SignUpPage {
     console.log(this.username);
   }
 
-  // async presentAlert(headerText: string, messageText: string) {
-  //   const alert = await this.alertController.create({
-  //     header: headerText,
-  //     // subHeader: 'Subtitle',
-  //     message: messageText,
-  //     buttons: [
-  //       {
-  //         text: 'Ok',
-  //       }]
-  //   });
-  //
-  //   await alert.present();
-  // }
+  async presentAlert(headerText: string, messageText: string) {
+    const alert = await this.alertController.create({
+      title: headerText,
+      message: messageText,
+      buttons: [
+        {
+          text: 'Ok',
+        }]
+    });
+
+    await alert.present();
+  }
+
   loginClick() {
     this.navCtrl.pop();
   }

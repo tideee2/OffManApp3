@@ -36,12 +36,13 @@ page-main {
       background: #fff;
       border-radius: 15px 15px 0 0;
       padding: 10px !important;
+      min-height: 50%;
       ion-list {
         background: #fff;
         .list-title {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 2vh;
+          padding-bottom: 2vh;
         }
         .transaction-container {
           display: flex;
@@ -79,7 +80,7 @@ page-main {
     }
     ion-fab {
       button {
-        background-color: #FFCB37!important;
+        background-color: #FFCB37 !important;
       }
     }
     ion-infinite-scroll-content {
@@ -97,7 +98,7 @@ page-main {
         background: #33333D;
       }
       button {
-        color: #fff!important;
+        color: #fff !important;
       }
     }
   }

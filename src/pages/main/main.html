@@ -28,8 +28,7 @@
             Total
           </div>
           <div class="price-card-cost">
-            <!--{{transService.balance}} -->
-            2000 грн
+            {{storage.balance}} грн
           </div>
           <div class="price-card-inf">
             <ion-icon name="ios-information-circle-outline"></ion-icon>
@@ -56,7 +55,7 @@
               <div [className]="'cost ' + (x.type === 'decrease' ? 'decrease-color' : 'increase-color')">
                 {{x.cost}} грн
               </div>
-              <div class="edit-button" (click)="editPurchase(x)" >
+              <div class="edit-button" (click)="addPurchase(x)" >
                 <ion-icon name="md-create"></ion-icon>
               </div>
             </div>

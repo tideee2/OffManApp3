@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {StorageProvider} from "../../providers/storage/storage";
 import {ChangePage} from "../change/change";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the SettingsPage page.
@@ -53,7 +54,7 @@ export class SettingsPage {
     // console.log(localStorage.getItem('name'));
     // @ts-ignore
     // this.changePassForm.controls.username.value = this.transService.name || localStorage.getItem('name');
-    this.changePassForm.controls.username.value = 'Vasya';
+    this.changePassForm.controls.username.value = this.storageSrv.name;
   }
 
   ionViewDidLoad() {
@@ -84,29 +85,40 @@ export class SettingsPage {
 
   changeUsername() {
     this.isEditName = !this.isEditName;
-    // this.authSrv.changeUsername(this.username.value, this.token).subscribe(value => {
-    //     console.log(value);
-    //     localStorage.setItem('name', this.username.value);
-    //     // this.presentAlert('Message', 'Register is successful. Check your email');
-    //   },
-    //   error => {
-    //     console.log(error);
-    //     if (error.status === 200) {
-    //       // this.presentAlert('Message', error.error.text + ' and login');
-    //       // this.router.navigate(['login']);
-    //     } else {
-    //       // this.presentAlert('Error', error.error);
-    //     }
-    //   });
+    this.authSrv.changeUsername(this.username.value, this.token).subscribe(value => {
+        console.log(value);
+        localStorage.setItem('name', this.username.value);
+        this.presentAlert('Message', 'Name has been changed');
+      },
+      error => {
+        console.log(error);
+        if (error.status === 200) {
+          this.presentAlert('Message', error.error.text + ' ');
+
+        } else {
+          this.presentAlert('Error', error.error);
+        }
+      });
+  }
+  async presentAlert(headerText: string, messageText: string) {
+    const alert = await this.alertController.create({
+      title: headerText,
+      message: messageText,
+      buttons: [
+        {
+          text: 'Ok',
+        }]
+    });
+    await alert.present();
   }
 
   logout() {
     localStorage.clear();
-    this.navCtrl.pop();
+    this.navCtrl.setRoot(LoginPage);
   }
 
   goToChangePass() {
-    this.navCtrl.push(ChangePage);
+    this.navCtrl.push(ChangePage, {});
   }
 
 }

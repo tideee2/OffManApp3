@@ -1,3 +1,41 @@
 page-change {
-
+  ion-header {
+    ion-navbar.toolbar {
+      button,
+      .toolbar-title{
+        color: #fff;
+      }
+      .toolbar-background {
+        background: #383840;
+      }
+    }
+  }
+  ion-content {
+    background-color: #33333D !important;
+    .input-container {
+      height: 10vh;
+    }
+    ion-item {
+      padding: 0 !important;
+      .item-inner {
+        background-color: #33333D !important;
+        padding: 0 !important;
+        color: #fff;
+      }
+      input {
+        outline: none;
+      }
+    }
+  }
+  .submit-btn-container {
+    .item-inner {
+      border: none!important;
+      button {
+        color: #fff;
+      }
+    }
+    .submit-btn {
+      background: #F9AA33!important;
+    }
+  }
 }
