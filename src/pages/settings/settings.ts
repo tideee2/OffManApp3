@@ -54,7 +54,7 @@ export class SettingsPage {
     // console.log(localStorage.getItem('name'));
     // @ts-ignore
     // this.changePassForm.controls.username.value = this.transService.name || localStorage.getItem('name');
-    this.changePassForm.controls.username.value = this.storageSrv.name;
+    this.changePassForm.controls.username.value = this.storageSrv.user.name;
   }
 
   ionViewDidLoad() {
@@ -77,24 +77,21 @@ export class SettingsPage {
     return res[0];
   }
 
-  editClick(el: HTMLElement) {
+  editClick() {
     this.isEditName = !this.isEditName;
-    console.log(this.inputName);
-    // this.inputName.first.focus = true;
   }
 
   changeUsername() {
     this.isEditName = !this.isEditName;
-    this.authSrv.changeUsername(this.username.value, this.token).subscribe(value => {
-        console.log(value);
+    this.authSrv.changeUsername(this.username.value).subscribe(value => {
         localStorage.setItem('name', this.username.value);
+        this.storageSrv.user.name = this.username.value;
         this.presentAlert('Message', 'Name has been changed');
       },
       error => {
         console.log(error);
         if (error.status === 200) {
           this.presentAlert('Message', error.error.text + ' ');
-
         } else {
           this.presentAlert('Error', error.error);
         }

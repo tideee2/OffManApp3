@@ -3,13 +3,6 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
-/**
- * Generated class for the SignUpPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-sign-up',
@@ -18,15 +11,12 @@ import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 export class SignUpPage {
   public regForm: FormGroup;
   public EMAILPATTERN = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
-  public PASSPATTERN = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$';
   public validation_messages;
-  public isPasswordMatched = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public formBuilder: FormBuilder,
               public auth: AuthServiceProvider,
-              public alertController: AlertController,
-  ) {
+              public alertController: AlertController) {
     this.regForm = formBuilder.group({
       username: [null,
         Validators.compose([
@@ -89,7 +79,6 @@ export class SignUpPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignUpPage');
   }
 
   comparePasswords(group: FormGroup): { [key: string]: any } {
@@ -99,14 +88,6 @@ export class SignUpPage {
       return {'comparePasswords': true};
     }
     return null;
-  }
-
-  private submit(event) {
-    if (this.regForm.valid) {
-      console.log('Form is valid.');
-    } else {
-      console.log('Form is invalid.');
-    }
   }
 
   get username() {
@@ -148,11 +129,6 @@ export class SignUpPage {
           this.presentAlert('Error', error.error);
         }
       });
-  }
-
-  qq() {
-    console.log(this.regForm.get('username'));
-    console.log(this.username);
   }
 
   async presentAlert(headerText: string, messageText: string) {

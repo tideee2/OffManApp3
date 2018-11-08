@@ -19,9 +19,7 @@ import {StorageProvider} from "../../providers/storage/storage";
 })
 export class ChangePage {
   public changeForm: FormGroup;
-  public validation_messages;
-
-  // public token = localStorage.getItem('x-access-token');
+  public validation_messages: Object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public formBuilder: FormBuilder,
@@ -56,6 +54,7 @@ export class ChangePage {
           validator: this.comparePasswords
         }),
     });
+
     this.validation_messages = {
       'email': {
         required: 'Email is required',
@@ -87,9 +86,7 @@ export class ChangePage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChangePage');
-  }
+  ionViewDidLoad() {}
 
   comparePasswords(group: FormGroup): { [key: string]: any } {
     const password = group.controls['new_password'];
@@ -121,6 +118,7 @@ export class ChangePage {
   }
 
   submitChange(): void {
+    // @todo chech if id in params exists
     this.authSrv.changePassword(this.old_password.value, this.new_password.value).subscribe(value => {
         console.log(value);
         this.presentAlert('Message', 'Change password is successful');
@@ -147,11 +145,6 @@ export class ChangePage {
     });
 
     await alert.present();
-  }
-
-  qq(e) {
-    console.log(e);
-    console.log(this.changeForm);
   }
 
   cancel() {

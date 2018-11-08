@@ -24,8 +24,6 @@ page-forgot {
     ion-item {
       padding: 0 !important;
       .item-inner {
-        //box-shadow: none;
-        //border: none !important;
         background-color: #33333D !important;
         padding: 0 !important;
       }
@@ -36,7 +34,6 @@ page-forgot {
     .input-container {
       height: 12vh;
       ion-item {
-        //border: 1px solid #fff !important;
         margin-bottom: 5px;
         color: #a6a6a6;
       }
@@ -67,7 +64,6 @@ page-forgot {
       }
     }
     .bottom-buttons {
-      //margin-top: -5vh;
       ion-label {
         color: #fff;
         font-size: 1.2rem;

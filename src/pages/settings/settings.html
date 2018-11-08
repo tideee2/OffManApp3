@@ -14,7 +14,7 @@
         <ion-item *ngIf="!isEditName" no-lines>
           <ion-label>
             <span> {{username.value}}</span>
-            <ion-icon name="md-create" *ngIf="!isEditName" (click)="editClick(qqq)"></ion-icon>
+            <ion-icon name="md-create" *ngIf="!isEditName" (click)="editClick()"></ion-icon>
           </ion-label>
         </ion-item>
         <div class="input-wrapper" *ngIf="isEditName">
@@ -28,26 +28,16 @@
         </div>
         <div *ngIf="username.invalid && (username.dirty || username.touched)" color="danger"
              class="alert alert-danger">
-          <span class="error-msg">{{ getErrorMessage('username') }}</span>
+          <span class="text-ios-danger">{{ getErrorMessage('username') }}</span>
         </div>
       </div>
       <ion-item class="btn change-btn" no-lines (click)="goToChangePass()">
-        <button ion-button
-          clear
-          size="normal"
-          class="submit-btn ion-col-3"
-          color="transparent"
-          >
+        <button ion-button clear size="normal" class="submit-btn ion-col-3" color="transparent">
           Change password
         </button>
       </ion-item>
       <ion-item class="btn logout-btn" text-center no-lines>
-        <button ion-button
-          color="danger"
-          size="normal"
-          class="submit-btn ion-col-3"
-          text-center
-          (click)="logout()">
+        <button ion-button color="danger" size="normal" class="submit-btn ion-col-3" text-center (click)="logout()">
           Logout
         </button>
       </ion-item>

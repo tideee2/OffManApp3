@@ -1,17 +1,8 @@
-<!--
-  Generated template for the ForgotPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title>Forgot password</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <ion-list>
@@ -20,13 +11,15 @@
         <ion-item no-padding>
           <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
         </ion-item>
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert alert-danger" style="color:#F53D3D">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger"
+             class="alert alert-danger" style="color:#F53D3D">
           <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
         </div>
       </div>
       <ion-item class="submit-btn-container" text-center no-lines>
         <button ion-button class="submit-btn ion-col-3" expand="block" no-padding
-                (click)="submitForgot()" clear [disabled]="!forgotForm.valid">Change password
+                (click)="submitForgot()" clear [disabled]="!forgotForm.valid">
+          Change password
         </button>
       </ion-item>
     </form>

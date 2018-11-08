@@ -1,19 +1,3 @@
-<!--
-  Generated template for the MainPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<!--<ion-header>-->
-
-  <!--<ion-navbar>-->
-    <!--<ion-title>main</ion-title>-->
-  <!--</ion-navbar>-->
-
-<!--</ion-header>-->
-
-
-
 <ion-content no-padding overflow-scroll="true" id="qq">
 
   <ion-card class="svg-card">
@@ -28,7 +12,7 @@
             Total
           </div>
           <div class="price-card-cost">
-            {{storage.balance}} грн
+            {{storage.user.balance}} грн
           </div>
           <div class="price-card-inf">
             <ion-icon name="ios-information-circle-outline"></ion-icon>
@@ -44,8 +28,7 @@
         <div class="list-title"><span>Transaction history</span>
           <ion-icon name="ios-funnel"></ion-icon>
         </div>
-        <div *ngFor="let x of this.storage.transactions; let i = index">
-          <!--<div>{{i+1}})</div>-->
+        <div *ngFor="let x of storage.user.transactions; let i = index">
           <div class="transaction-container" (click)="showButton(container)" #container tappable>
             <div class="col">
               <div class="description">{{x.description !== null ? x.description : ''}}</div>
@@ -63,12 +46,12 @@
         </div>
       </ion-list>
 
-      <ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngIf="showInfiniteScroll">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+      <!--<ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngIf="showInfiniteScroll">-->
+        <!--<ion-infinite-scroll-content-->
+          <!--loadingSpinner="bubbles"-->
+          <!--loadingText="Loading more data...">-->
+        <!--</ion-infinite-scroll-content>-->
+      <!--</ion-infinite-scroll>-->
     </ion-card>
   </section>
   <ion-fab bottom center edge class="add-btn">

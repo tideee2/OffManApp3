@@ -13,7 +13,7 @@ page-settings {
   }
   .confirm-btn {
     .button-inner {
-      margin-left:-1vh!important;
+      margin-left: -1vh !important;
     }
   }
   form {
@@ -86,7 +86,6 @@ page-settings {
       --box-shadow: none;
       border: 1px solid #DB952B;
       border-radius: 5px;
-      //width: 60%;
       button {
         text-align: center !important;
       }
@@ -102,12 +101,12 @@ page-settings {
   }
   .logout-btn {
     margin-top: 5vh;
-    .item-inner{
-      padding: 0!important;
+    .item-inner {
+      padding: 0 !important;
       ion-label {
         margin: 0;
         button.submit-btn {
-          margin: 0!important;
+          margin: 0 !important;
           height: 6vh;
         }
       }

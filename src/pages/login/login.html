@@ -9,8 +9,9 @@
         <ion-item no-padding>
           <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
         </ion-item>
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert alert-danger" style="color:#F53D3D">
-          <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger"
+             class="alert alert-danger">
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(loginForm, 'email', validation_messages) }}</span>
         </div>
       </div>
       <div class="input-container">
@@ -20,7 +21,7 @@
         </ion-item>
         <div *ngIf="password.invalid && (password.dirty || password.touched)"
                  class="alert alert-danger">
-          <span class="text-ios-danger">{{ getErrorMessage('password') }}</span>
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(loginForm, 'password', validation_messages) }}</span>
         </div>
       </div>
       <ion-label text-right class="forgot-btn" no-lines no-padding clear>

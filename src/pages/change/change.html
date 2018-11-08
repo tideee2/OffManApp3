@@ -10,9 +10,8 @@
       <div>
         <div class="input-container">
           <ion-item>
-            <!--<ion-label position="fixed">Confirm password</ion-label>-->
-            <ion-input name="old_password" type="password" formControlName="old_password" (keyup)="qq($event)"
-                       placeholder="Old password"></ion-input>
+            <ion-input name="old_password" type="password" formControlName="old_password" placeholder="Old password">
+            </ion-input>
           </ion-item>
           <div *ngIf="old_password.invalid && (old_password.dirty || old_password.touched)"
                color="danger" class="alert alert-danger">
@@ -46,37 +45,19 @@
               <span class="text-ios-danger">Passwords do not match</span>
             </div>
           </div>
-          <!--<div class="input-container">-->
-          <!--<ion-row *ngIf="old_password.valid && confirm_password.valid && !changeForm.get('matchingPasswords').valid">-->
-          <!--<ion-col class="error-msg">-->
-          <!--<span class="text-ios-danger">Passwords cannot be the same</span>-->
-          <!--</ion-col>-->
-          <!--</ion-row>-->
-          <!--</div>-->
         </div>
       </div>
 
       <ion-item class="submit-btn-container">
         <ion-row>
           <ion-col size="6">
-            <button ion-button
-                    full
-                    clear
-                    size="normal"
-                    class="cancel-btn ion-col-3"
-                    color="orange"
-                    (click)="cancel()">
+            <button ion-button full clear size="normal" class="cancel-btn ion-col-3" color="orange" (click)="cancel()">
               Cancel
             </button>
           </ion-col>
           <ion-col size="6">
-            <button ion-button
-                    full
-                    [disabled]="!changeForm.valid"
-                    size="normal"
-                    class="submit-btn ion-col-3"
-                    color="orange"
-                    (click)="submitChange()">
+            <button ion-button full [disabled]="!changeForm.valid" size="normal" class="submit-btn ion-col-3"
+                    color="orange" (click)="submitChange()">
               Submit
             </button>
           </ion-col>

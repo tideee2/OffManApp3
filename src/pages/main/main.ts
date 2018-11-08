@@ -1,26 +1,10 @@
-import {Component, Renderer, ViewChild} from '@angular/core';
-import {
-  App,
-  Content,
-  InfiniteScroll,
-  IonicPage,
-  ModalController,
-  NavController,
-  NavParams,
-  Platform
-} from 'ionic-angular';
-import {Chart} from 'chart.js';
-import {AddTransactionPage} from "../add-transaction/add-transaction";
-import {SettingsPage} from "../settings/settings";
-import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
-import {StorageProvider} from "../../providers/storage/storage";
-
-/**
- * Generated class for the MainPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Component, ViewChild } from '@angular/core';
+import { Content, InfiniteScroll, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Chart } from 'chart.js';
+import { AddTransactionPage } from "../add-transaction/add-transaction";
+import { SettingsPage } from "../settings/settings";
+import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
+import { StorageProvider } from "../../providers/storage/storage";
 
 @IonicPage()
 @Component({
@@ -33,25 +17,21 @@ export class MainPage {
   @ViewChild(Content) content: Content;
 
   public token: string;
-  public balance: number = 1000;
+  public balance: number = 0;
   public page = 1;
-  private app: App = null;
   public showEditButton = false;
-  public containerClass = 'transaction-container';
   public showInfiniteScroll = true;
-  public items = [];
 
   doughnutChart: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public modalController: ModalController,
+  constructor(public navCtrl: NavController,
               public auth: AuthServiceProvider,
               public storage: StorageProvider) {
+    // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
     this.auth.getTransactions('', 1)
       .subscribe((data) => {
-          this.storage.transactions = data;
-          console.log(data);
+          this.storage.user.transactions = data || [];
         },
         error => {
           console.log(error);
@@ -59,36 +39,21 @@ export class MainPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MainPage');
     this.displayChart();
-    //
-    // this.token = this.storageSrv.token;
-    // this.balance = parseInt(localStorage.getItem('balance'), 10);
-    // // this.balance = this.storageSrv.balance;
-    //
-    // // window.onscroll = function (e) {
-    // //     console.log('fff');
-    // // };
-    // this.transService.getTransactions('', 1)
-    //   .subscribe((data) => {
-    //       this.transService.transactions = data;
-    //       console.log(data);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
+    // console.log(this.storage.user.balance);
   }
 
   loadData(event) {
+    // @todo remove timeout
     setTimeout(() => {
       this.page++;
       this.auth.getTransactions('', this.page)
         .subscribe((data) => {
-          data.splice(10,data.length-10);
-            this.storage.transactions = this.storage.transactions.concat(data);
+            data.splice(10, data.length - 10);
+            this.storage.user.transactions = this.storage.user.transactions.concat(data);
             console.log(data);
             if (data.length < 10) {
-              // this.infiniteScroll.enabled = true;
+              this.infiniteScroll.enabled = true;
               this.showInfiniteScroll = false;
               this.page--;
             }
@@ -102,8 +67,7 @@ export class MainPage {
   }
 
   addPurchase(transaction?) {
-    console.log(transaction);
-    transaction ? this.navCtrl.push(AddTransactionPage,{
+    transaction ? this.navCtrl.push(AddTransactionPage, {
       cost: transaction.cost,
       type: transaction.type,
       desc: transaction.description
@@ -111,21 +75,16 @@ export class MainPage {
   }
 
   showButton(x: HTMLElement) {
-    console.log(x);
     // @ts-ignore
-    document.querySelectorAll('.transaction-container').forEach(q => { if (q !== x) {q.className = 'transaction-container'; } });
-    // x.className = (!~(x.className.indexOf('enable-edit'))) ? 'transaction-container enable-edit' : 'transaction-container' ;
-    x.className = (!~(x.className.indexOf('enable-edit'))) ? 'transaction-container enable-edit' : 'transaction-container' ;
-  }
-
-  editPurchase(transaction) {
-    this.navCtrl.push(AddTransactionPage,{
-      id: "555",
-      name: "Carl"
+    document.querySelectorAll('.transaction-container').forEach(q => {
+      if (q !== x) {
+        q.className = 'transaction-container';
+      }
     });
+    x.className = (!~(x.className.indexOf('enable-edit'))) ? 'transaction-container enable-edit' : 'transaction-container';
   }
 
-  goToSettings () {
+  goToSettings() {
     this.navCtrl.push(SettingsPage);
   }
 
@@ -134,9 +93,12 @@ export class MainPage {
       type: 'doughnut',
       data: {
         datasets: [{
-          data: [this.balance],
+          data: [this.storage.user.balance, 300, 500, 400],
           backgroundColor: [
-            '#1FB37F'
+            '#1FB37F',
+            '#CCCC33',
+            '#000033',
+            '#CC3333'
           ],
           borderWidth: 0
         }]
@@ -165,7 +127,6 @@ export class MainPage {
         }
       }
     });
-    console.log(this.doughnutChart);
   }
 
 }

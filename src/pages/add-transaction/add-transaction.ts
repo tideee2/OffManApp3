@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MainPage} from "../main/main";
-import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
-import {StorageProvider} from "../../providers/storage/storage";
+import { Component, Input } from '@angular/core';
+import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MainPage } from "../main/main";
+import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
+import { StorageProvider } from "../../providers/storage/storage";
 
 /**
  * Generated class for the AddTransactionPage page.
@@ -21,17 +21,14 @@ export class AddTransactionPage {
   @Input() money: any;
   @Input() data: any;
 
-  // public transactionType = '';
   public transactionForm: FormGroup;
   public validation_messages;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public modalController: ModalController,
               public auth: AuthServiceProvider,
               public formBuilder: FormBuilder,
-              public storageSrv: StorageProvider,
-              // private route: ActivatedRoute,
-  ) {
+              public storageSrv: StorageProvider) {
+
     this.transactionForm = this.formBuilder.group({
       transactionType: ['', Validators.required],
       cost: ['', Validators.compose([
@@ -45,6 +42,7 @@ export class AddTransactionPage {
           Validators.minLength(5)
         ])]
     });
+
     this.validation_messages = {
       'cost': {
         required: 'Enter cost of purchase',
@@ -56,6 +54,8 @@ export class AddTransactionPage {
         maxlength: 'Description cannot be more than 20 characters long'
       },
     };
+
+    // @todo create Transaction model and use it here
     // @ts-ignore
     this.transactionForm.controls.cost.value = this.navParams.get('cost');
     // @ts-ignore
@@ -72,12 +72,15 @@ export class AddTransactionPage {
   get cost() {
     return this.transactionForm.get('cost');
   }
+
   get transactionType() {
     return this.transactionForm.get('transactionType');
   }
+
   set transactionType(val) {
     this.transactionForm.value.transactionType = val;
   }
+
   get description() {
     return this.transactionForm.get('description');
   }
@@ -90,6 +93,7 @@ export class AddTransactionPage {
     this.transactionForm.value.description = val;
   }
 
+  // @todo replace with 1 cakk from service
   getErrorMessage(name: string): any {
     const res = [];
     Object.keys(this[name].errors).forEach((error) => {
@@ -99,14 +103,15 @@ export class AddTransactionPage {
   }
 
   submitPurchase() {
+    console.log('fsdfsdf');
     this.auth.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
       .subscribe(value => {
-          console.log(value);
-          this.storageSrv.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
-          this.storageSrv.transactions.unshift(value);
+        console.log(this.storageSrv);
+          this.storageSrv.user.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
+          this.storageSrv.user.transactions.unshift(value);
+          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
         },
         error => {
-          console.log(error);
         });
     this.navCtrl.pop();
   }

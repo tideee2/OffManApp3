@@ -13,8 +13,6 @@ page-login {
     ion-item {
       padding: 0 !important;
       .item-inner {
-        //box-shadow: none;
-        //border: none !important;
         background-color: #33333D !important;
         padding: 0 !important;
       }
@@ -25,14 +23,12 @@ page-login {
     .input-container {
       height: 12vh;
       ion-item {
-        //border: 1px solid #fff !important;
         margin-bottom: 5px;
         color: #a6a6a6;
       }
       .alert {
         color: #a6a6a6;
       }
-
     }
     .forgot-btn {
       margin-top: -1vh;
@@ -67,7 +63,5 @@ page-login {
   #main-canvas {
     border: 1px solid red;
     margin-top: 10vh;
-    //height: 40vh!important;
-    //width: 80vh!important;
   }
 }

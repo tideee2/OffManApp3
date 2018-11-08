@@ -22,9 +22,6 @@ page-main {
           display: flex;
           align-items: center;
           justify-content: center;
-          .qq {
-
-          }
           .price-card-cost {
             font-size: 2.5rem;
             margin: 2vh 0;
@@ -92,7 +89,6 @@ page-main {
       .toolbar-content {
         display: flex;
         justify-content: space-between;
-
       }
       .toolbar-background {
         background: #33333D;
@@ -102,5 +98,10 @@ page-main {
       }
     }
   }
-
+  .decrease-color {
+    color: #ba2f00;
+  }
+  .increase-color {
+    color: #006500;
+  }
 }

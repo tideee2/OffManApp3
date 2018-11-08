@@ -14,8 +14,10 @@ import {ForgotPage} from "../pages/forgot/forgot";
 import {SettingsPage} from "../pages/settings/settings";
 import {SignUpPage} from "../pages/sign-up/sign-up";
 import {AuthServiceProvider} from '../providers/auth-service/auth-service';
-import {HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { StorageProvider } from '../providers/storage/storage';
+import { AuthInterceptor } from '../auth/auth-interceptor';
+import { ErrorsProvider } from '../providers/errors/errors';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { StorageProvider } from '../providers/storage/storage';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
-    StorageProvider
+    StorageProvider,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    ErrorsProvider
   ]
 })
 export class AppModule {
