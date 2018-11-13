@@ -13,7 +13,7 @@
         </ion-item>
         <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger"
              class="alert alert-danger" style="color:#F53D3D">
-          <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(forgotForm, 'email', validation_messages) }}</span>
         </div>
       </div>
       <ion-item class="submit-btn-container" text-center no-lines>

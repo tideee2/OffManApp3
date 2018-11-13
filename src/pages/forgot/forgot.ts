@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import { ErrorsProvider } from '../../providers/errors/errors';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,9 @@ export class ForgotPage {
   public validation_messages;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder,
-              public authSrv: AuthServiceProvider, public alertController: AlertController) {
+              public authSrv: AuthServiceProvider,
+              public errorSrv: ErrorsProvider,
+              public alertController: AlertController) {
 
     this.forgotForm = this.formBuilder.group({
       email: ['', Validators.compose([
@@ -34,14 +37,6 @@ export class ForgotPage {
   ionViewDidLoad() {}
 
   get email() { return this.forgotForm.get('email'); }
-
-  getErrorMessage(name: string): any {
-    const res = [];
-    Object.keys(this[name].errors).forEach((error) => {
-      res.push(this.validation_messages[name][error]);
-    });
-    return res[0];
-  }
 
   submitForgot(): void {
     this.authSrv.forgotPassword(this.email.value).subscribe( (value) => {

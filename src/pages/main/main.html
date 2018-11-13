@@ -46,12 +46,12 @@
         </div>
       </ion-list>
 
-      <!--<ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngIf="showInfiniteScroll">-->
-        <!--<ion-infinite-scroll-content-->
-          <!--loadingSpinner="bubbles"-->
-          <!--loadingText="Loading more data...">-->
-        <!--</ion-infinite-scroll-content>-->
-      <!--</ion-infinite-scroll>-->
+      <ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngIf="showInfiniteScroll">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </ion-card>
   </section>
   <ion-fab bottom center edge class="add-btn">

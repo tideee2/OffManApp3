@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import { ErrorsProvider } from '../../providers/errors/errors';
 
 @IonicPage()
 @Component({
@@ -16,6 +17,7 @@ export class SignUpPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public formBuilder: FormBuilder,
               public auth: AuthServiceProvider,
+              public errorSrv: ErrorsProvider,
               public alertController: AlertController) {
     this.regForm = formBuilder.group({
       username: [null,
@@ -106,14 +108,6 @@ export class SignUpPage {
     return this.regForm.get('matchingPasswords.confirm_password');
   }
 
-  getErrorMessage(name: string): any {
-    const res = [];
-    Object.keys(this[name].errors).forEach((error) => {
-      res.push(this.validation_messages[name][error]);
-    });
-    return res[0];
-  }
-
   submitRegister(): void {
     this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
         console.log(value);
@@ -147,4 +141,5 @@ export class SignUpPage {
   loginClick() {
     this.navCtrl.pop();
   }
+
 }

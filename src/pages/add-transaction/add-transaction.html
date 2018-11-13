@@ -8,7 +8,8 @@
 
   <form [formGroup]="transactionForm">
     <ion-item no-padding no-border>
-      <ion-label [hidden]="true">Select type</ion-label>
+      <!-- @todo WTF?? -->
+      <ion-label hidden>Select type</ion-label>
       <ion-select placeholder="Select One" slot="start" #select formControlName="transactionType">
         <ion-option value="decrease">Outcoming</ion-option>
         <ion-option value="increase">Incoming</ion-option>
@@ -25,11 +26,11 @@
       </ion-item>
       <div *ngIf="cost.invalid && (cost.dirty || cost.touched)" color="danger"
            class="alert alert-danger">
-        <span class="text-ios-danger">{{ getErrorMessage('cost') }}</span>
+        <span class="text-ios-danger">{{ errorSrv.getErrorMessage(transactionForm, 'cost', validation_messages) }}</span>
       </div>
       <div *ngIf="description.invalid && (description.dirty || description.touched)" color="danger"
            class="alert alert-danger">
-        <span class="text-ios-danger">{{ getErrorMessage('description') }}</span>
+        <span class="text-ios-danger">{{ errorSrv.getErrorMessage(transactionForm, 'description', validation_messages) }}</span>
       </div>
     </div>
   </form>

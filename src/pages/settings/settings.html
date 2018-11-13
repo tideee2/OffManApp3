@@ -28,7 +28,7 @@
         </div>
         <div *ngIf="username.invalid && (username.dirty || username.touched)" color="danger"
              class="alert alert-danger">
-          <span class="text-ios-danger">{{ getErrorMessage('username') }}</span>
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changePassForm, 'username', validation_messages) }}</span>
         </div>
       </div>
       <ion-item class="btn change-btn" no-lines (click)="goToChangePass()">

@@ -11,7 +11,7 @@
                      placeholder="Enter username"></ion-input>
         </ion-item>
         <div *ngIf="username.invalid && (username.dirty || username.touched)" color="alert">
-          <span class="text-ios-danger">{{ getErrorMessage('username') }}</span>
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm, 'username', validation_messages) }}</span>
         </div>
       </div>
       <div class="input-container">
@@ -19,7 +19,7 @@
           <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
         </ion-item>
         <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert">
-          <span class="text-ios-danger">{{ getErrorMessage('email') }}</span>
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm, 'email', validation_messages) }}</span>
         </div>
       </div>
       <div formGroupName="matchingPasswords">
@@ -30,7 +30,7 @@
           </ion-item>
           <div *ngIf="password.invalid && (password.dirty || password.touched)" color="danger"
                class="alert alert-danger">
-            <span class="text-ios-danger">{{ getErrorMessage('password') }}</span>
+            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'password', validation_messages) }}</span>
           </div>
         </div>
         <div class="input-container">
@@ -40,7 +40,8 @@
           </ion-item>
           <div *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger"
                class="alert alert-danger">
-            <span class="text-ios-danger">{{ getErrorMessage('confirm_password') }}</span>
+            <!--<span class="text-ios-danger">{{ getErrorMessage('confirm_password') }}</span>-->
+            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'confirm_password', validation_messages) }}</span>
           </div>
           <div *ngIf="password.valid && confirm_password.valid && regForm.get('matchingPasswords').invalid"
                class="alert">

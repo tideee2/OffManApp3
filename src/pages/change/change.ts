@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {StorageProvider} from "../../providers/storage/storage";
+import { ErrorsProvider } from '../../providers/errors/errors';
 
 /**
  * Generated class for the ChangePage page.
@@ -25,6 +26,7 @@ export class ChangePage {
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
               public http: HttpClient,
+              public errorSrv: ErrorsProvider,
               public alertController: AlertController,
               public storageSrv: StorageProvider
   ) {
@@ -107,14 +109,6 @@ export class ChangePage {
 
   get confirm_password() {
     return this.changeForm.get('matchingPasswords.confirm_password');
-  }
-
-  getErrorMessage(name: string): any {
-    const res = [];
-    Object.keys(this[name].errors).forEach((error) => {
-      res.push(this.validation_messages[name][error]);
-    });
-    return res[0];
   }
 
   submitChange(): void {

@@ -18,6 +18,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { StorageProvider } from '../providers/storage/storage';
 import { AuthInterceptor } from '../auth/auth-interceptor';
 import { ErrorsProvider } from '../providers/errors/errors';
+import { TransactionProvider } from '../providers/transaction/transaction-service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ErrorsProvider } from '../providers/errors/errors';
     AuthServiceProvider,
     StorageProvider,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    ErrorsProvider
+    ErrorsProvider,
+    TransactionProvider
   ]
 })
 export class AppModule {

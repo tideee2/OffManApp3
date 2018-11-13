@@ -5,6 +5,7 @@ import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {StorageProvider} from "../../providers/storage/storage";
 import {ChangePage} from "../change/change";
 import {LoginPage} from "../login/login";
+import { ErrorsProvider } from '../../providers/errors/errors';
 
 /**
  * Generated class for the SettingsPage page.
@@ -31,7 +32,8 @@ export class SettingsPage {
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
               public alertController: AlertController,
-              public storageSrv: StorageProvider
+              public storageSrv: StorageProvider,
+              public errorSrv: ErrorsProvider,
   ) {
     this.changePassForm = formBuilder.group({
       username: [null,

@@ -5,6 +5,7 @@ import { AddTransactionPage } from "../add-transaction/add-transaction";
 import { SettingsPage } from "../settings/settings";
 import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
 import { StorageProvider } from "../../providers/storage/storage";
+import { TransactionProvider } from '../../providers/transaction/transaction-service';
 
 @IonicPage()
 @Component({
@@ -26,10 +27,11 @@ export class MainPage {
 
   constructor(public navCtrl: NavController,
               public auth: AuthServiceProvider,
-              public storage: StorageProvider) {
+              public storage: StorageProvider,
+              public transSrv: TransactionProvider) {
     // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
-    this.auth.getTransactions('', 1)
+    this.transSrv.getTransactions('', 1)
       .subscribe((data) => {
           this.storage.user.transactions = data || [];
         },
@@ -47,7 +49,7 @@ export class MainPage {
     // @todo remove timeout
     setTimeout(() => {
       this.page++;
-      this.auth.getTransactions('', this.page)
+      this.transSrv.getTransactions('', this.page)
         .subscribe((data) => {
             data.splice(10, data.length - 10);
             this.storage.user.transactions = this.storage.user.transactions.concat(data);
@@ -63,14 +65,12 @@ export class MainPage {
           });
       console.log('Async operation has ended');
       event.complete();
-    }, 1500);
+    }, 300);
   }
 
   addPurchase(transaction?) {
     transaction ? this.navCtrl.push(AddTransactionPage, {
-      cost: transaction.cost,
-      type: transaction.type,
-      desc: transaction.description
+      data: transaction
     }) : this.navCtrl.push(AddTransactionPage);
   }
 

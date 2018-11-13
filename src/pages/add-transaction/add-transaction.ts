@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MainPage } from "../main/main";
 import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
 import { StorageProvider } from "../../providers/storage/storage";
+import { ErrorsProvider } from '../../providers/errors/errors';
+import { Transaction, TransactionModel } from '../../models/transaction-model';
+import { TransactionProvider } from '../../providers/transaction/transaction-service';
 
 /**
  * Generated class for the AddTransactionPage page.
@@ -23,10 +26,13 @@ export class AddTransactionPage {
 
   public transactionForm: FormGroup;
   public validation_messages;
+  public transaction;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
               public formBuilder: FormBuilder,
+              public errorSrv: ErrorsProvider,
+              public transSrv: TransactionProvider,
               public storageSrv: StorageProvider) {
 
     this.transactionForm = this.formBuilder.group({
@@ -56,12 +62,15 @@ export class AddTransactionPage {
     };
 
     // @todo create Transaction model and use it here
+
+
+    this.transaction = this.navParams.get('data') || new Transaction();
     // @ts-ignore
-    this.transactionForm.controls.cost.value = this.navParams.get('cost');
+    this.transactionForm.controls.cost.value = this.transaction.cost;
     // @ts-ignore
-    this.transactionForm.controls.description.value = this.navParams.get('desc');
+    this.transactionForm.controls.description.value = this.transaction.description;
     // @ts-ignore
-    this.transactionForm.controls.transactionType.value = this.navParams.get('type');
+    this.transactionForm.controls.transactionType.value = this.transaction.type;
   }
 
   ionViewDidLoad() {
@@ -93,18 +102,9 @@ export class AddTransactionPage {
     this.transactionForm.value.description = val;
   }
 
-  // @todo replace with 1 cakk from service
-  getErrorMessage(name: string): any {
-    const res = [];
-    Object.keys(this[name].errors).forEach((error) => {
-      res.push(this.validation_messages[name][error]);
-    });
-    return res[0];
-  }
-
   submitPurchase() {
     console.log('fsdfsdf');
-    this.auth.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
+    this.transSrv.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
       .subscribe(value => {
         console.log(this.storageSrv);
           this.storageSrv.user.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
@@ -112,6 +112,8 @@ export class AddTransactionPage {
           localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
         },
         error => {
+          // @todo Create Error service and show all errors in toast message
+          console.log(error);
         });
     this.navCtrl.pop();
   }
