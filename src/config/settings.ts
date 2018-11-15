@@ -5,4 +5,6 @@ export class Settings {
 
 }
 
-
+export class Vars {
+  static categories = ['coffee', 'food', 'household goods', 'services', 'others']
+}

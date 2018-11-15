@@ -38,8 +38,14 @@
               <div [className]="'cost ' + (x.type === 'decrease' ? 'decrease-color' : 'increase-color')">
                 {{x.cost}} грн
               </div>
-              <div class="edit-button" (click)="addPurchase(x)" >
-                <ion-icon name="md-create"></ion-icon>
+              <div class="container-icons row">
+                <div class="edit-button col-6" (click)="addPurchase(x)" >
+                  <ion-icon name="md-create"></ion-icon>
+                </div>
+                <div class="delete-button col-6" (click)="deletePurchase(x)" >
+                  <ion-icon name="trash"></ion-icon>
+                </div>
+
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {StorageProvider} from "../../providers/storage/storage";
 import { ErrorsProvider } from '../../providers/errors/errors';
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
 
 /**
  * Generated class for the ChangePage page.
@@ -26,6 +27,7 @@ export class ChangePage {
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
               public http: HttpClient,
+              public msgSrv: ShowMessageProvider,
               public errorSrv: ErrorsProvider,
               public alertController: AlertController,
               public storageSrv: StorageProvider
@@ -115,30 +117,17 @@ export class ChangePage {
     // @todo chech if id in params exists
     this.authSrv.changePassword(this.old_password.value, this.new_password.value).subscribe(value => {
         console.log(value);
-        this.presentAlert('Message', 'Change password is successful');
+        this.msgSrv.presentAlert('Message', 'Change password is successful');
       },
       error => {
         console.log(error);
         if (error.status === 200) {
-          this.presentAlert('Message', error.error.text + ' ');
+          this.msgSrv.presentAlert('Message', error.error.text + ' ');
 
         } else {
-          this.presentAlert('Error', error.error);
+          this.msgSrv.presentAlert('Error', error.error);
         }
       });
-  }
-
-  async presentAlert(headerText: string, messageText: string) {
-    const alert = await this.alertController.create({
-      title: headerText,
-      message: messageText,
-      buttons: [
-        {
-          text: 'Ok',
-        }]
-    });
-
-    await alert.present();
   }
 
   cancel() {

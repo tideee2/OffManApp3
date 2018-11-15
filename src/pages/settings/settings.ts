@@ -6,6 +6,7 @@ import {StorageProvider} from "../../providers/storage/storage";
 import {ChangePage} from "../change/change";
 import {LoginPage} from "../login/login";
 import { ErrorsProvider } from '../../providers/errors/errors';
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
 
 /**
  * Generated class for the SettingsPage page.
@@ -32,6 +33,7 @@ export class SettingsPage {
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
               public alertController: AlertController,
+              public msgSrv: ShowMessageProvider,
               public storageSrv: StorageProvider,
               public errorSrv: ErrorsProvider,
   ) {
@@ -71,14 +73,6 @@ export class SettingsPage {
     this.changePassForm.value.username = val;
   }
 
-  getErrorMessage(name: string): any {
-    const res = [];
-    Object.keys(this[name].errors).forEach((error) => {
-      res.push(this.validation_messages[name][error]);
-    });
-    return res[0];
-  }
-
   editClick() {
     this.isEditName = !this.isEditName;
   }
@@ -88,27 +82,16 @@ export class SettingsPage {
     this.authSrv.changeUsername(this.username.value).subscribe(value => {
         localStorage.setItem('name', this.username.value);
         this.storageSrv.user.name = this.username.value;
-        this.presentAlert('Message', 'Name has been changed');
+        this.msgSrv.presentAlert('Message', 'Name has been changed');
       },
       error => {
         console.log(error);
         if (error.status === 200) {
-          this.presentAlert('Message', error.error.text + ' ');
+          this.msgSrv.presentAlert('Message', error.error.text + ' ');
         } else {
-          this.presentAlert('Error', error.error);
+          this.msgSrv.presentAlert('Error', error.error);
         }
       });
-  }
-  async presentAlert(headerText: string, messageText: string) {
-    const alert = await this.alertController.create({
-      title: headerText,
-      message: messageText,
-      buttons: [
-        {
-          text: 'Ok',
-        }]
-    });
-    await alert.present();
   }
 
   logout() {

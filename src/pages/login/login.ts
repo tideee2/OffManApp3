@@ -7,6 +7,7 @@ import {ForgotPage} from "../forgot/forgot";
 import {MainPage} from "../main/main";
 import {StorageProvider} from "../../providers/storage/storage";
 import { ErrorsProvider } from '../../providers/errors/errors';
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
 
 @IonicPage()
 @Component({
@@ -22,6 +23,7 @@ export class LoginPage {
 
   constructor(public formBuilder: FormBuilder, public alertController: AlertController,
               public navCtrl: NavController, public errorSrv: ErrorsProvider,
+              public msgSrv: ShowMessageProvider,
               public auth: AuthServiceProvider,
               public storageSrv: StorageProvider) {
 
@@ -67,7 +69,7 @@ export class LoginPage {
     _email = _email || this.email.value;
     _pass = _pass || this.password.value;
     this.auth.loginUser(_email, _pass).subscribe((value: any) => {
-        this.presentAlert('Message', 'Login is successful. Welcome.');
+        this.msgSrv.presentAlert('Message', 'Login is successful. Welcome.');
         // @todo replace with small object
         this.storageSrv.user = value.user;
         console.log(value.user);
@@ -77,21 +79,14 @@ export class LoginPage {
       },
       error => {
         if (error.status === 200) {
-          this.presentAlert('Message', error.error.text + ' and login');
+          this.msgSrv.presentAlert('Message', error.error.text + ' and login');
         } else {
-          this.presentAlert('Error', error.error);
+          this.msgSrv.presentAlert('Error', error.error);
         }
       });
   }
 
-  presentAlert(title, text) {
-    let alert = this.alertController.create({
-      title: title,
-      subTitle: text,
-      buttons: ['Ok']
-    });
-    alert.present();
-  }
+
 
   registerClick() {
     this.navCtrl.push(SignUpPage);

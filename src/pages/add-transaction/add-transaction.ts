@@ -7,7 +7,9 @@ import { StorageProvider } from "../../providers/storage/storage";
 import { ErrorsProvider } from '../../providers/errors/errors';
 import { Transaction, TransactionModel } from '../../models/transaction-model';
 import { TransactionProvider } from '../../providers/transaction/transaction-service';
-
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
+import { V } from '@angular/core/src/render3';
+import { Vars } from '../../config/settings'
 /**
  * Generated class for the AddTransactionPage page.
  *
@@ -28,10 +30,13 @@ export class AddTransactionPage {
   public validation_messages;
   public transaction;
 
+  listOfCategories = Vars.categories;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
               public formBuilder: FormBuilder,
               public errorSrv: ErrorsProvider,
+              public msgSrv: ShowMessageProvider,
               public transSrv: TransactionProvider,
               public storageSrv: StorageProvider) {
 
@@ -41,6 +46,7 @@ export class AddTransactionPage {
         Validators.required,
         Validators.pattern('[0-9 ]*')
       ])],
+      category: ['', Validators.required],
       description: ['',
         Validators.compose([
           Validators.required,
@@ -71,6 +77,8 @@ export class AddTransactionPage {
     this.transactionForm.controls.description.value = this.transaction.description;
     // @ts-ignore
     this.transactionForm.controls.transactionType.value = this.transaction.type;
+    // @ts-ignore
+    this.transactionForm.controls.category.value = this.transaction.type;
   }
 
   ionViewDidLoad() {
@@ -102,20 +110,29 @@ export class AddTransactionPage {
     this.transactionForm.value.description = val;
   }
 
+  get category() {
+    return this.transactionForm.get('category');
+  }
+
+  set category(val) {
+    this.transactionForm.value.category = val;
+  }
+
   submitPurchase() {
-    console.log('fsdfsdf');
-    this.transSrv.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
-      .subscribe(value => {
-        console.log(this.storageSrv);
-          this.storageSrv.user.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
-          this.storageSrv.user.transactions.unshift(value);
-          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
-        },
-        error => {
-          // @todo Create Error service and show all errors in toast message
-          console.log(error);
-        });
-    this.navCtrl.pop();
+    console.log(this.transactionForm);
+    // this.transSrv.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
+    //   .subscribe(value => {
+    //     this.msgSrv.presentAlert('Message', 'transaction add successful')
+    //     console.log(this.storageSrv);
+    //     this.storageSrv.user.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
+    //     this.storageSrv.user.transactions.unshift(value);
+    //     localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
+    //     },
+    //     error => {
+    //       console.log(error);
+    //       this.msgSrv.presentAlert('Error', error.error)
+    //     });
+    // this.navCtrl.pop();
   }
 
   cancel(): void {

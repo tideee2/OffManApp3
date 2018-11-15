@@ -7,12 +7,17 @@
 <ion-content padding>
 
   <form [formGroup]="transactionForm">
-    <ion-item no-padding no-border>
-      <!-- @todo WTF?? -->
-      <ion-label hidden>Select type</ion-label>
-      <ion-select placeholder="Select One" slot="start" #select formControlName="transactionType">
+    <ion-item>
+      <ion-label>Select type</ion-label>
+      <ion-select formControlName="transactionType" name="transactionType">
         <ion-option value="decrease">Outcoming</ion-option>
         <ion-option value="increase">Incoming</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="transactionType.value === 'increase'">
+      <ion-label>Select category</ion-label>
+      <ion-select formControlName="category" name="category">
+        <ion-option value="{{x}}" *ngFor="let x of listOfCategories">{{x}}</ion-option>
       </ion-select>
     </ion-item>
     <div class="input-container">

@@ -3,6 +3,7 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import { ErrorsProvider } from '../../providers/errors/errors';
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class SignUpPage {
               public formBuilder: FormBuilder,
               public auth: AuthServiceProvider,
               public errorSrv: ErrorsProvider,
+              public msgSrv: ShowMessageProvider,
               public alertController: AlertController) {
     this.regForm = formBuilder.group({
       username: [null,
@@ -111,31 +113,18 @@ export class SignUpPage {
   submitRegister(): void {
     this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
         console.log(value);
-        this.presentAlert('Message', 'Register is successful. Check your email');
+        this.msgSrv.presentAlert('Message', 'Register is successful. Check your email');
       },
       error => {
         console.log(error);
         if (error.status === 200) {
-          this.presentAlert('Message', error.error.text + ' and login');
+          this.msgSrv.presentAlert('Message', error.error.text + ' and login');
           this.navCtrl.pop();
         } else {
           console.log(error);
-          this.presentAlert('Error', error.error);
+          this.msgSrv.presentAlert('Error', error.error);
         }
       });
-  }
-
-  async presentAlert(headerText: string, messageText: string) {
-    const alert = await this.alertController.create({
-      title: headerText,
-      message: messageText,
-      buttons: [
-        {
-          text: 'Ok',
-        }]
-    });
-
-    await alert.present();
   }
 
   loginClick() {

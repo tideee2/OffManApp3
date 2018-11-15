@@ -3,6 +3,7 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import { ErrorsProvider } from '../../providers/errors/errors';
+import { ShowMessageProvider } from '../../providers/show-message/show-message';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class ForgotPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
+              public msgSrv: ShowMessageProvider,
               public errorSrv: ErrorsProvider,
               public alertController: AlertController) {
 
@@ -40,24 +42,12 @@ export class ForgotPage {
 
   submitForgot(): void {
     this.authSrv.forgotPassword(this.email.value).subscribe( (value) => {
-        this.presentAlert('Message', 'Email has been sent');
+        this.msgSrv.presentAlert('Message', 'Email has been sent');
         this.navCtrl.pop();
       },
       error => {
-        this.presentAlert('Error', error.statusText );
+        this.msgSrv.presentAlert('Error', error.statusText );
       });
   }
 
-  async presentAlert(headerText: string, messageText: string) {
-    const alert = await this.alertController.create({
-      title: headerText,
-      message: messageText,
-      buttons: [
-        {
-          text: 'Ok',
-        }]
-    });
-
-    await alert.present();
-  }
 }

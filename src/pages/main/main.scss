@@ -50,15 +50,19 @@ page-main {
             align-items: center;
           }
           &.enable-edit {
-            .edit-button {
+            .container-icons {
               display: block;
             }
             .cost {
               display: none;
             }
           }
-          .edit-button {
+          .container-icons {
             display: none;
+          }
+          .edit-button,
+          .delete-button{
+            display: inline-block;
             color: #fff;
             background: #FFCB37;
             border-radius: 50%;
@@ -68,6 +72,9 @@ page-main {
             ion-icon {
               font-size: 20px;
             }
+          }
+          .delete-button {
+            background-color: #ba2f00;
           }
           .datetime {
             color: #b4b4b4;

@@ -42,7 +42,7 @@ export class MainPage {
 
   ionViewDidLoad() {
     this.displayChart();
-    // console.log(this.storage.user.balance);
+    console.log(this.storage.user.balance);
   }
 
   loadData(event) {
@@ -55,7 +55,7 @@ export class MainPage {
             this.storage.user.transactions = this.storage.user.transactions.concat(data);
             console.log(data);
             if (data.length < 10) {
-              this.infiniteScroll.enabled = true;
+              // this.infiniteScroll.enabled = true;
               this.showInfiniteScroll = false;
               this.page--;
             }
@@ -72,6 +72,12 @@ export class MainPage {
     transaction ? this.navCtrl.push(AddTransactionPage, {
       data: transaction
     }) : this.navCtrl.push(AddTransactionPage);
+  }
+
+  deletePurchase(transaction?) {
+    console.log(transaction);
+    this.storage.user.transactions = this.storage.user.transactions.filter( (x) => x._id !== transaction._id)
+    this.transSrv.deleteTransaction(transaction);
   }
 
   showButton(x: HTMLElement) {

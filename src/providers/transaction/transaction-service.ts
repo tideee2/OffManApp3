@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Settings } from '../../config/settings';
 import { StorageProvider } from '../storage/storage';
+import { TransactionModel } from '../../models/transaction-model';
 
 /*
   Generated class for the TransactionProvider provider.
@@ -27,5 +28,10 @@ export class TransactionProvider {
   public addTransactions(description: string, type: string, cost: number): Observable<any> {
     console.log('eqweqwe');
     return this.http.post(this.MAIN_URL + 'transactions', {'description': description, 'type': type, 'cost': cost * 1});
+  }
+
+  public deleteTransaction(transaction: TransactionModel): Observable<any> {
+    console.log('deleting');
+    return this.http.post(this.MAIN_URL + 'transactions', transaction);
   }
 }
