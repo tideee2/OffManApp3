@@ -33,7 +33,9 @@ export class MainPage {
 
     this.transSrv.getTransactions('', 1)
       .subscribe((data) => {
-          this.storage.user.transactions = data || [];
+          console.log(data);
+          this.storage.user.transactions = data.transactions || [];
+          this.storage.user.balance = data.user.balance;
         },
         error => {
           console.log(error);

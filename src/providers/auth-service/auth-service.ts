@@ -23,6 +23,7 @@ export class AuthServiceProvider {
   }
 
   public registerUser(name: string, email: string, password: string): Observable<any> {
+    console.log('service reg');
     return this.http.post(this.MAIN_URL + 'auth/registration', {
       'name': name,
       'email': email,

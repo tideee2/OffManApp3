@@ -31,6 +31,7 @@ export class AddTransactionPage {
   public transaction;
 
   listOfCategories = Vars.categories;
+  listOfIncrease = Vars.incoming;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
@@ -78,7 +79,8 @@ export class AddTransactionPage {
     // @ts-ignore
     this.transactionForm.controls.transactionType.value = this.transaction.type;
     // @ts-ignore
-    this.transactionForm.controls.category.value = this.transaction.type;
+    this.transactionForm.controls.category.value = this.transaction.category;
+
   }
 
   ionViewDidLoad() {
@@ -120,19 +122,61 @@ export class AddTransactionPage {
 
   submitPurchase() {
     console.log(this.transactionForm);
-    // this.transSrv.addTransactions(this.description.value || 'balance increase', this.transactionType.value, this.cost.value)
-    //   .subscribe(value => {
-    //     this.msgSrv.presentAlert('Message', 'transaction add successful')
-    //     console.log(this.storageSrv);
-    //     this.storageSrv.user.balance += this.transactionType.value === 'increase' ? value.cost : -value.cost;
-    //     this.storageSrv.user.transactions.unshift(value);
-    //     localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
-    //     },
-    //     error => {
-    //       console.log(error);
-    //       this.msgSrv.presentAlert('Error', error.error)
-    //     });
-    // this.navCtrl.pop();
+    if (this.transaction._id) {
+      this.editTransaction();
+    } else {
+      this.addUser();
+    }
+    this.navCtrl.pop();
+  }
+
+  addUser(){
+    const sendTransaction = {
+      description: this.description.value || 'balance increase',
+      type: this.transactionType.value,
+      cost: this.cost.value,
+      category: this.category.value
+    };
+    this.transSrv.addTransactions(sendTransaction)
+      .subscribe(value => {
+          this.msgSrv.presentAlert('Message', 'transaction add successful')
+          console.log(this.storageSrv);
+          this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
+            sendTransaction.cost;
+          this.storageSrv.user.transactions.unshift(value.transaction.q);
+          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
+
+        },
+        error => {
+          console.log(error);
+          this.msgSrv.presentAlert('Error', error.error)
+        });
+  }
+
+  editTransaction() {
+    const sendTransaction = {
+      _id: this.transaction._id,
+      description: this.description.value || 'balance increase',
+      type: this.transactionType.value,
+      cost: this.cost.value,
+      category: this.category.value
+    };
+    this.transSrv.editTransactions(sendTransaction)
+      .subscribe(value => {
+          this.msgSrv.presentAlert('Message', 'transaction edit successful');
+          console.log(this.storageSrv);
+          this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
+            Math.abs(sendTransaction.cost - this.cost.value);
+          this.storageSrv.user.transactions.filter((x) => {
+            return value.transaction.q._id !== x._id;
+          })
+          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
+
+        },
+        error => {
+          console.log(error);
+          this.msgSrv.presentAlert('Error', error.error)
+        });
   }
 
   cancel(): void {

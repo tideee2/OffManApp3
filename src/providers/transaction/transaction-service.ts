@@ -25,13 +25,31 @@ export class TransactionProvider {
       this.MAIN_URL + `transactions/?page=${page}`);
   }
 
-  public addTransactions(description: string, type: string, cost: number): Observable<any> {
+  public addTransactions(tansaction): Observable<any> {
     console.log('eqweqwe');
-    return this.http.post(this.MAIN_URL + 'transactions', {'description': description, 'type': type, 'cost': cost * 1});
+    return this.http.post(this.MAIN_URL + 'transactions', {
+      'description': tansaction.description,
+      'type': tansaction.type,
+      'cost': tansaction.cost * 1,
+      'category': tansaction.category
+    });
+  }
+
+  public editTransactions(transaction): Observable<any> {
+    console.log('eqweqwe');
+    return this.http.put(this.MAIN_URL + 'transactions', {
+      _id: transaction._id,
+      'description': transaction.description,
+      'type': transaction.type,
+      'cost': transaction.cost * 1,
+      'category': transaction.category
+    });
   }
 
   public deleteTransaction(transaction: TransactionModel): Observable<any> {
     console.log('deleting');
-    return this.http.post(this.MAIN_URL + 'transactions', transaction);
+
+    // return this.http.delete(this.MAIN_URL + 'transactions', {'body': transaction});
+    return this.http.delete('http://localhost:3000/transactions', {});
   }
 }
