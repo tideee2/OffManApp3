@@ -25,6 +25,19 @@ export class TransactionProvider {
       this.MAIN_URL + `transactions/?page=${page}`);
   }
 
+  public getTransactionsByCategory(data): Observable<any> {
+    const page = data.page || 1;
+    const type = data.type || '';
+    const category = data.category || '';
+    if (category === 'All') {
+      return this.http.get(
+        this.MAIN_URL + `transactions/?page=1`);
+    } else {
+      return this.http.get(
+        this.MAIN_URL + `transactions/?page=${page}&category=${category}`);
+    }
+  }
+
   public addTransactions(tansaction): Observable<any> {
     console.log('eqweqwe');
     return this.http.post(this.MAIN_URL + 'transactions', {

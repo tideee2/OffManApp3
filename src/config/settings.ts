@@ -9,5 +9,4 @@ export class Settings {
 export class Vars {
   static categories = ['coffee', 'food', 'household goods', 'services', 'others'];
   static incoming = ['type1', 'type2'];
-
 }
