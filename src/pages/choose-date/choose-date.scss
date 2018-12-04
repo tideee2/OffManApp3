@@ -1,0 +1,53 @@
+page-choose-date {
+  ion-navbar {
+    .toolbar-background {
+      background-color: #383840;
+    }
+    button,
+    .toolbar-title {
+      color: #fff !important;
+    }
+  }
+  ion-content {
+    background-color: #33333D !important;
+    ion-label {
+      color: #fff;
+    }
+    .item-datetime {
+      background-color: transparent;
+      .item-inner {
+        .datetime-text {
+          color: #fff;
+        }
+
+      }
+    }
+    .item-select {
+      background-color: transparent;
+      .select-text {
+        color: #fff;
+      }
+    }
+    .confirm-btn {
+      .button-inner {
+        margin-left: -1vh !important;
+      }
+    }
+    .submit-btn-container {
+      background: transparent;
+      .item-inner {
+        border: none!important;
+        button {
+          .button-inner {
+            color: #fff;
+          }
+          &.submit-btn {
+            background-color: #F9AA33;
+            border-radius: 2px;
+          }
+        }
+      }
+    }
+  }
+
+}

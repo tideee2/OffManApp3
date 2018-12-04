@@ -24,11 +24,12 @@
         <ion-option value="{{x}}" *ngFor="let x of listOfCategories">{{x}}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item *ngIf="transactionType.value === 'increase'">
+    <ion-item *ngIf="transactionType.value === 'increase'" hidden>
       <ion-label>Select category</ion-label>
-      <ion-select formControlName="category" name="category">
-        <ion-option value="{{x}}" *ngFor="let x of listOfIncrease">{{x}}</ion-option>
-      </ion-select>
+      <!--<ion-select formControlName="category" name="category">-->
+        <!--<ion-option value="{{listOfIncrease[0]}}" [selected]>{{listOfIncrease[0]}}</ion-option>-->
+      <!--</ion-select>-->
+      <ion-input formControlName="category" value="{{listOfIncrease[0]}}"></ion-input>
     </ion-item>
 
     <div class="input-container">

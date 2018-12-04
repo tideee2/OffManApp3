@@ -7,6 +7,8 @@ import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
 import { StorageProvider } from "../../providers/storage/storage";
 import { TransactionProvider } from '../../providers/transaction/transaction-service';
 import { Vars } from '../../config/settings';
+import { ModalController, ViewController } from 'ionic-angular';
+import { ChooseDatePage } from '../choose-date/choose-date';
 
 @IonicPage()
 @Component({
@@ -20,17 +22,21 @@ export class MainPage {
 
   public token: string;
   public showEditButton = false;
-  public showInfiniteScroll = true;
+  public showInfiniteScroll = false;
   public doughnutChart: any;
   public selectedCat = 'All';
   public balance: number = 0;
   public page = 1;
   public listOfCategories = Vars.categories;
+  public listOfColors = Vars.catColors;
+  public startDate = '';
+  public finishDate ='';
 
   constructor(public navCtrl: NavController,
               public auth: AuthServiceProvider,
               public storage: StorageProvider,
               public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
               public transSrv: TransactionProvider) {
     // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
@@ -53,20 +59,26 @@ export class MainPage {
   loadData(event) {
     // @todo remove timeout
     setTimeout(() => {
+      console.log(this.selectedCat, ' ', this.page);
       this.page++;
       this.transSrv.getTransactionsByCategory({
         type: '',
         page: this.page,
-        category: this.selectedCat
+        category: this.selectedCat,
+        start: this.startDate,
+        finish: this.finishDate
       })
         .subscribe((data) => {
             // data.transactions.splice(10, data.length - 10);
             this.storage.user.transactions = this.storage.user.transactions.concat(data.transactions);
             console.log(data);
             if (data.transactions.length < 10) {
-              this.infiniteScroll.enabled = true;
-              this.showInfiniteScroll = false;
+
+              this.showInfiniteScroll = true;
+              this.infiniteScroll.enabled = false;
               this.page--;
+            } else {
+
             }
           },
           error => {
@@ -126,7 +138,6 @@ export class MainPage {
       value: 'type2',
       checked: false
     });
-
     alert.addButton('Cancel');
     alert.addButton({
       text: 'Ok',
@@ -141,6 +152,7 @@ export class MainPage {
               console.log(data);
               this.storage.user.transactions = data.transactions || [];
               this.storage.user.balance = data.user.balance;
+              this.selectedCat = data;
             },
             error => {
               console.log(error);
@@ -149,6 +161,34 @@ export class MainPage {
     });
 
     alert.present();
+  }
+
+  presentProfileModal() {
+    let profileModal = this.modalCtrl.create(ChooseDatePage);
+    profileModal.onDidDismiss(data => {
+      console.log(data);
+      if (data.status === 'submit') {
+        this.showInfiniteScroll = false;
+        this.infiniteScroll.enabled = true;
+
+        this.startDate = data.start;
+        this.finishDate = data.finish;
+        this.selectedCat = data.category;
+        this.transSrv.getTransactionsByCategory({
+          start: data.start,
+          type: '',
+          page: 1,
+          finish: data.finish,
+          category: data.category
+        }).subscribe( (response) => {
+          console.log(response);
+          this.storage.user.transactions = response.transactions;
+        }, error => {
+          console.log(error);
+        })
+      }
+    });
+    profileModal.present();
   }
 
   displayChart() {

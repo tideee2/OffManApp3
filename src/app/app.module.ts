@@ -20,6 +20,8 @@ import { AuthInterceptor } from '../auth/auth-interceptor';
 import { ErrorsProvider } from '../providers/errors/errors';
 import { TransactionProvider } from '../providers/transaction/transaction-service';
 import { ShowMessageProvider } from '../providers/show-message/show-message';
+import { ChooseDatePage } from '../pages/choose-date/choose-date';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -31,11 +33,13 @@ import { ShowMessageProvider } from '../providers/show-message/show-message';
     ChangePage,
     ForgotPage,
     SettingsPage,
-    SignUpPage
+    SignUpPage,
+    ChooseDatePage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -48,11 +52,13 @@ import { ShowMessageProvider } from '../providers/show-message/show-message';
     ChangePage,
     ForgotPage,
     SettingsPage,
-    SignUpPage
+    SignUpPage,
+    ChooseDatePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Network,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     StorageProvider,

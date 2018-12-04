@@ -29,13 +29,27 @@ export class TransactionProvider {
     const page = data.page || 1;
     const type = data.type || '';
     const category = data.category || '';
-    if (category === 'All') {
-      return this.http.get(
-        this.MAIN_URL + `transactions/?page=1`);
+    const start = data.start || '';
+    const finish = data.finish || '';
+    if (start == '' && finish == ''){
+      if (category === 'All') {
+        return this.http.get(
+          this.MAIN_URL + `transactions/?page=${page}`);
+      } else {
+        return this.http.get(
+          this.MAIN_URL + `transactions/?page=${page}&category=${category}`);
+      }
     } else {
-      return this.http.get(
-        this.MAIN_URL + `transactions/?page=${page}&category=${category}`);
+      if (category === 'All') {
+        return this.http.get(
+          this.MAIN_URL + `transactions/?page=${page}&start=${start}&finish=${finish}`);
+      } else {
+        return this.http.get(
+          this.MAIN_URL + `transactions/?page=${page}&category=${category}&start=${start}&finish=${finish}`);
+      }
+
     }
+
   }
 
   public addTransactions(tansaction): Observable<any> {

@@ -36,12 +36,17 @@ page-main {
       min-height: 50%;
       ion-list {
         background: #fff;
+        padding-bottom: 4px;
         .list-title {
           display: flex;
           justify-content: space-between;
           padding-bottom: 2vh;
         }
+        .tr-cont-lvl1 {
+          padding: 2px 0;
+        }
         .transaction-container {
+
           display: flex;
           justify-content: space-between;
           .col:nth-last-child(1) {
@@ -78,6 +83,11 @@ page-main {
           }
           .datetime {
             color: #b4b4b4;
+          }
+          .col-left {
+            border-left-width: 4px;
+            border-left-style: solid;
+            padding: 0 8px;
           }
         }
       }
