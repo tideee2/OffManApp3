@@ -30,17 +30,19 @@ export class MyApp {
           splashScreen.hide();
         }, 1000);
       }
-      if (network.type == 'none') {
-        this.rootPage = NointernetPage;
-      } else {
-        if (localStorage.getItem('x-access-token') !== null) {
+      console.log(network.type);
+
+      // if (network.type == 'none') {
+      //    this.rootPage = NointernetPage;
+      // } else { }
+
+      if (localStorage.getItem('x-access-token') !== null) {
           // @todo replace with one object
           storage.user = JSON.parse(localStorage.getItem('user'));
           this.rootPage = MainPage;
         } else {
           this.rootPage = LoginPage;
         }
-      }
 
     });
   }

@@ -8,6 +8,7 @@ import {MainPage} from "../main/main";
 import {StorageProvider} from "../../providers/storage/storage";
 import { ErrorsProvider } from '../../providers/errors/errors';
 import { ShowMessageProvider } from '../../providers/show-message/show-message';
+import { Network } from '@ionic-native/network';
 
 @IonicPage()
 @Component({
@@ -24,6 +25,7 @@ export class LoginPage {
   constructor(public formBuilder: FormBuilder, public alertController: AlertController,
               public navCtrl: NavController, public errorSrv: ErrorsProvider,
               public msgSrv: ShowMessageProvider,
+              public network: Network,
               public auth: AuthServiceProvider,
               public storageSrv: StorageProvider) {
 
@@ -51,7 +53,7 @@ export class LoginPage {
         pattern: 'Your password must contain at least one uppercase, one lowercase, and one number'
       },
     };
-
+    console.log(this.network.type);
   }
 
   ionViewDidLoad() {

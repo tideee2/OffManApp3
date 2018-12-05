@@ -15,17 +15,26 @@
             {{storage.user.balance}} грн
           </div>
           <div class="price-card-inf">
-            <ion-icon name="ios-information-circle-outline"></ion-icon>
+            <ion-icon name="ios-information-circle-outline" (click)="showInfo = !showInfo" [style.color]="showInfo ? '#FFCB37': ''"></ion-icon>
           </div>
         </div>
       </div>
     </ion-card-content>
   </ion-card>
-
+  <ion-card *ngIf="showInfo" class="info-card">
+    <ion-row class="info-container">
+      <ion-col col-6 *ngFor="let y of listOfCategories">
+        <span class="col-left" [style.border-left-color]="listOfColors[y]">{{y}}</span>
+      </ion-col>
+    </ion-row>
+  </ion-card>
   <section padding class="product-list">
+
     <ion-card class="inf-list">
       <ion-list>
         <div class="list-title"><span>Transaction history</span>
+          <span *ngIf="showFilterCancel" class="cancel-filter" (click)="cancelFilter()">show all</span>
+          <!--<button ion-button round outline *ngIf="showFilterCancel" class="cancel-filter" (click)="cancelFilter()">cancel filter</button>-->
         </div>
         <div *ngFor="let x of storage.user.transactions; let i = index" class="tr-cont-lvl1">
           <div class="transaction-container" (click)="showButton(container)" #container tappable >

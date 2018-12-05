@@ -32,7 +32,8 @@ export class TransactionProvider {
     const start = data.start || '';
     const finish = data.finish || '';
     if (start == '' && finish == ''){
-      if (category === 'All') {
+      console.log(category);
+      if (!!~category.indexOf('All')) {
         return this.http.get(
           this.MAIN_URL + `transactions/?page=${page}`);
       } else {

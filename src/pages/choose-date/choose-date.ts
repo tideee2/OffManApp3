@@ -40,7 +40,7 @@ export class ChooseDatePage {
     console.log(this.dateFrom);
     console.log(this.dateTo);
     console.log(this.category);
-    this.viewCtrl.dismiss({status: 'submit', start: this.dateFrom, finish: this.dateTo, category: this.category});
+    this.viewCtrl.dismiss({status: 'submit', start: this.dateFrom, finish: this.dateTo, category: this.category.toString()});
 
   }
 }

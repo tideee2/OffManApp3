@@ -17,9 +17,10 @@
     </ion-item>
     <ion-item>
       <ion-label>Chose category</ion-label>
-      <ion-select [(ngModel)]="category">
-        <ion-option value="All" selected>All</ion-option>
+      <ion-select [(ngModel)]="category" multiple="true">
+
         <ion-option  *ngFor="let x of listOfCategories" value="{{x}}">{{x}}</ion-option>
+        <ion-option value="increase" selected>increase</ion-option>
       </ion-select>
     </ion-item>
   </div>
