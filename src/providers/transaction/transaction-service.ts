@@ -4,13 +4,8 @@ import { Observable } from 'rxjs';
 import { Settings } from '../../config/settings';
 import { StorageProvider } from '../storage/storage';
 import { TransactionModel } from '../../models/transaction-model';
+import { observable } from 'rxjs/symbol/observable';
 
-/*
-  Generated class for the TransactionProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class TransactionProvider {
 
@@ -32,7 +27,6 @@ export class TransactionProvider {
     const start = data.start || '';
     const finish = data.finish || '';
     if (start == '' && finish == ''){
-      console.log(category);
       if (!!~category.indexOf('All')) {
         return this.http.get(
           this.MAIN_URL + `transactions/?page=${page}`);
@@ -54,7 +48,6 @@ export class TransactionProvider {
   }
 
   public addTransactions(tansaction): Observable<any> {
-    console.log('eqweqwe');
     return this.http.post(this.MAIN_URL + 'transactions', {
       'description': tansaction.description,
       'type': tansaction.type,
@@ -64,7 +57,6 @@ export class TransactionProvider {
   }
 
   public editTransactions(transaction): Observable<any> {
-    console.log('eqweqwe');
     return this.http.put(this.MAIN_URL + 'transactions', {
       _id: transaction._id,
       'description': transaction.description,
@@ -75,9 +67,6 @@ export class TransactionProvider {
   }
 
   public deleteTransaction(transaction: TransactionModel): Observable<any> {
-    console.log('deleting');
-
-    // return this.http.delete(this.MAIN_URL + 'transactions', {'body': transaction});
-    return this.http.delete('http://localhost:3000/transactions', {});
+    return this.http.delete(`${Settings.MAIN_URL}transactions/${transaction._id}`, {});
   }
 }

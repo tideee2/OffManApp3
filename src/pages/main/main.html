@@ -34,7 +34,6 @@
       <ion-list>
         <div class="list-title"><span>Transaction history</span>
           <span *ngIf="showFilterCancel" class="cancel-filter" (click)="cancelFilter()">show all</span>
-          <!--<button ion-button round outline *ngIf="showFilterCancel" class="cancel-filter" (click)="cancelFilter()">cancel filter</button>-->
         </div>
         <div *ngFor="let x of storage.user.transactions; let i = index" class="tr-cont-lvl1">
           <div class="transaction-container" (click)="showButton(container)" #container tappable >
@@ -62,7 +61,6 @@
         </div>
       </ion-list>
 
-      <!--<ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" *ngShow="showInfiniteScroll">-->
       <ion-infinite-scroll threshold="20px" (ionInfinite)="loadData($event)" [hidden]="showInfiniteScroll">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"

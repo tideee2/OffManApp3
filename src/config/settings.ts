@@ -2,8 +2,8 @@
 export class Settings {
 
   // static MAIN_URL = 'http://5.101.180.10:3005/';
-  // static MAIN_URL = 'http://localhost:3005/';
-  static MAIN_URL = 'http://192.168.1.75:3005/';
+  static MAIN_URL = 'http://localhost:3005/';
+  // static MAIN_URL = 'http://192.168.1.75:3005/';
 
 }
 

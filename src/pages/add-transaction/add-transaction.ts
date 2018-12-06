@@ -77,9 +77,9 @@ export class AddTransactionPage {
     // @ts-ignore
     this.transactionForm.controls.description.value = this.transaction.description;
     // @ts-ignore
-    this.transactionForm.controls.transactionType.value = this.transaction.type;
+    this.transactionForm.controls.transactionType.value = this.transaction.type || 'decrease';
     // @ts-ignore
-    this.transactionForm.controls.category.value = this.transaction.category;
+    this.transactionForm.controls.category.value = this.transaction.category || 'others';
 
   }
 

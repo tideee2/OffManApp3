@@ -59,8 +59,8 @@ export class MainPage {
   }
 
   loadData(event) {
-    // @todo remove timeout
-    setTimeout(() => {
+
+    // setTimeout(() => {
       this.page++;
       console.log(this.selectedCat, ' ', this.page);
       this.transSrv.getTransactionsByCategory({
@@ -71,14 +71,11 @@ export class MainPage {
         finish: this.finishDate
       })
         .subscribe((data) => {
-            // data.transactions.splice(10, data.length - 10);
             this.storage.user.transactions = this.storage.user.transactions.concat(data.transactions);
             console.log(data);
             if (data.transactions.length < 5) {
-
               this.showInfiniteScroll = true;
               this.infiniteScroll.enabled = false;
-              // this.page--;
             } else {
 
             }
@@ -86,9 +83,8 @@ export class MainPage {
           error => {
             console.log(error);
           });
-      console.log('Async operation has ended');
       event.complete();
-    }, 300);
+    // }, 300);
   }
 
   addPurchase(transaction?) {
@@ -100,7 +96,12 @@ export class MainPage {
   deletePurchase(transaction?) {
     console.log(transaction);
     this.storage.user.transactions = this.storage.user.transactions.filter( (x) => x._id !== transaction._id)
-    this.transSrv.deleteTransaction(transaction);
+    this.transSrv.deleteTransaction(transaction).subscribe( trans => {
+      console.log(trans)
+    }, (err) => {
+      console.warn(err);
+    })
+    ;
   }
 
   showButton(x: HTMLElement) {
@@ -115,54 +116,6 @@ export class MainPage {
 
   goToSettings() {
     this.navCtrl.push(SettingsPage);
-  }
-
-  searchByCategory(){
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Choose category');
-    // alert.addInput({
-    //   type: 'checkbox',
-    //   label: 'All',
-    //   value: 'All',
-    //   checked: true
-    // });
-    this.listOfCategories.forEach( (x, i) => {
-      alert.addInput({
-        type: 'checkbox',
-        label: x,
-        value: x,
-        checked: false
-      });
-    });
-    // alert.addInput({
-    //   type: 'checkbox',
-    //   label: 'increase',
-    //   value: 'increase',
-    //   checked: false
-    // });
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'Ok',
-      handler: (data: any) => {
-        console.log('Radio data:', data);
-        // this.transSrv.getTransactionsByCategory({
-        //   category: data,
-        //   type: '',
-        //   page: 1
-        // })
-        //   .subscribe((data) => {
-        //       console.log(data);
-        //       this.storage.user.transactions = data.transactions || [];
-        //       this.storage.user.balance = data.user.balance;
-        //       this.selectedCat = data;
-        //     },
-        //     error => {
-        //       console.log(error);
-        //     });
-      }
-    });
-
-    alert.present();
   }
 
   cancelFilter() {
@@ -184,14 +137,10 @@ export class MainPage {
   presentProfileModal() {
     let profileModal = this.modalCtrl.create(ChooseDatePage);
     profileModal.onDidDismiss(data => {
-      console.log(data);
       if (data.status === 'submit') {
         this.showInfiniteScroll = false;
         this.infiniteScroll.enabled = true;
         this.showFilterCancel = data.category !== 'All';
-        console.log(data.category);
-        console.log(!!data.category);
-
         this.startDate = data.start;
         this.finishDate = data.finish;
         this.selectedCat = data.category;
@@ -204,7 +153,6 @@ export class MainPage {
           finish: data.finish,
           category: data.category || 'All'
         }).subscribe( (response) => {
-          console.log(response);
           this.storage.user.transactions = response.transactions;
         }, error => {
           console.log(error);
