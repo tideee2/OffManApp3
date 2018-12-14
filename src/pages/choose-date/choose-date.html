@@ -7,20 +7,23 @@
 
 <ion-content padding>
   <div class="input-container">
+    <ion-label>Chose date</ion-label>
     <ion-item>
-      <ion-label>Date from</ion-label>
+      <ion-label>from</ion-label>
+
       <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="dateFrom"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label>Date to</ion-label>
+      <ion-label>to</ion-label>
       <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="dateTo"></ion-datetime>
     </ion-item>
+
+    <ion-label>Category</ion-label>
     <ion-item>
       <ion-label>Chose category</ion-label>
       <ion-select [(ngModel)]="category" multiple="true">
 
         <ion-option  *ngFor="let x of listOfCategories" value="{{x}}">{{x}}</ion-option>
-        <ion-option value="increase" selected>increase</ion-option>
       </ion-select>
     </ion-item>
   </div>

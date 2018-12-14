@@ -3,44 +3,39 @@
     <div>Office</div>
     <div>Management</div>
   </div>
-  <ion-list>
-    <form [formGroup]="loginForm">
-      <div class="input-container">
-        <ion-item no-padding>
-          <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
-        </ion-item>
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger"
-             class="alert alert-danger">
-          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(loginForm, 'email', validation_messages) }}</span>
-        </div>
-      </div>
-      <div class="input-container">
-        <ion-item no-padding>
-          <ion-input name="password" type="password" formControlName="password"
-                     placeholder="Enter password"></ion-input>
-        </ion-item>
-        <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                 class="alert alert-danger">
-          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(loginForm, 'password', validation_messages) }}</span>
-        </div>
-      </div>
-      <ion-label text-right class="forgot-btn" no-lines no-padding clear>
+  <form [formGroup]="loginForm">
+    <ion-item no-padding>
+      <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
+    </ion-item>
+    <p *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert alert-danger text-ios-danger">
+      {{ errorSrv.getErrorMessage(loginForm, 'email', validation_messages) }}
+    </p>
+
+    <ion-item no-padding>
+      <ion-input name="password" type="password" formControlName="password" placeholder="Enter password"></ion-input>
+    </ion-item>
+    <p *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger text-ios-danger">
+      {{ errorSrv.getErrorMessage(loginForm, 'password', validation_messages) }}
+    </p>
+
+    <ion-item no-lines>
+      <ion-label text-right class="forgot-btn">
         <span (click)="forgotClick()">Forgot password?</span>
       </ion-label>
-      <ion-item class="submit-btn-container" text-center no-lines>
-        <button ion-button class="submit-btn ion-col-3" expand="block" no-padding
-                    (click)="submitLogin()" clear [disabled]="!loginForm.valid">Login
-        </button>
-      </ion-item>
-    </form>
+    </ion-item>
 
-  </ion-list>
+    <button ion-button color="orange" type="submit" block
+                (click)="submitLogin()"  [disabled]="!loginForm.valid">Login
+    </button>
+
+  </form>
+
   <section class="bottom-buttons" text-center>
 
       <ion-label color="white" (click)="registerClick()">Have no account yet?</ion-label>
 
-      <ion-label color="white" (click)="submitLogin('c41618aec8@mailox.fun','12345')">Test login</ion-label>
+      <ion-label color="white" (click)="submitLogin('jimuya@cliptik.net','12345')">Test login</ion-label>
 
   </section>
-<!--<span>{{this.network.type}}</span>-->
+
 </ion-content>

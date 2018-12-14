@@ -22,6 +22,8 @@ import { TransactionProvider } from '../providers/transaction/transaction-servic
 import { ShowMessageProvider } from '../providers/show-message/show-message';
 import { ChooseDatePage } from '../pages/choose-date/choose-date';
 import { Network } from '@ionic-native/network';
+import { NointernetPage } from '../pages/nointernet/nointernet';
+import { NetworkProvider } from '../providers/network-service/network-service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { Network } from '@ionic-native/network';
     ForgotPage,
     SettingsPage,
     SignUpPage,
-    ChooseDatePage
+    ChooseDatePage,
+    NointernetPage
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { Network } from '@ionic-native/network';
     ForgotPage,
     SettingsPage,
     SignUpPage,
+    NointernetPage,
     ChooseDatePage
   ],
   providers: [
@@ -65,7 +69,8 @@ import { Network } from '@ionic-native/network';
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ErrorsProvider,
     TransactionProvider,
-    ShowMessageProvider
+    ShowMessageProvider,
+    NetworkProvider
   ]
 })
 export class AppModule {

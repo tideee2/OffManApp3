@@ -5,48 +5,38 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
     <form [formGroup]="changeForm">
-      <div>
-        <div class="input-container">
-          <ion-item>
-            <ion-input name="old_password" type="password" formControlName="old_password" placeholder="Old password">
-            </ion-input>
-          </ion-item>
-          <div *ngIf="old_password.invalid && (old_password.dirty || old_password.touched)"
-               color="danger" class="alert alert-danger">
-            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm, 'old_password', validation_messages) }}</span>
-          </div>
+        <ion-item>
+          <ion-input name="old_password" type="password" formControlName="old_password" placeholder="Old password">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="old_password.invalid && (old_password.dirty || old_password.touched)"
+             color="danger" class="alert alert-danger">
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm, 'old_password', validation_messages) }}</span>
         </div>
         <div formGroupName="matchingPasswords">
-          <div class="input-container">
-            <ion-item>
-              <!--<ion-label position="fixed">Enter password</ion-label>-->
-              <ion-input name="new_password" type="password" formControlName="new_password"
-                         placeholder="New password"></ion-input>
-            </ion-item>
-            <div *ngIf="new_password.invalid && (new_password.dirty || new_password.touched)" color="danger"
-                 class="alert alert-danger">
-              <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm.get('matchingPasswords'), 'new_password', validation_messages) }}</span>
-            </div>
+          <ion-item>
+            <ion-input name="new_password" type="password" formControlName="new_password"
+                       placeholder="New password"></ion-input>
+          </ion-item>
+          <div *ngIf="new_password.invalid && (new_password.dirty || new_password.touched)" color="danger"
+               class="alert alert-danger">
+            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm.get('matchingPasswords'), 'new_password', validation_messages) }}</span>
           </div>
-          <div class="input-container">
-            <ion-item>
-              <!--<ion-label position="fixed">Confirm password</ion-label>-->
-              <ion-input name="confirm_password" type="password" formControlName="confirm_password"
-                         placeholder="Confirm password"></ion-input>
-            </ion-item>
-            <div *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger"
-                 class="alert alert-danger">
-              <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm.get('matchingPasswords'), 'confirm_password', validation_messages) }}</span>
-            </div>
-            <div *ngIf="old_password.valid && confirm_password.valid && changeForm.get('matchingPasswords').invalid"
-                 class="alert">
-              <span class="text-ios-danger">Passwords do not match</span>
-            </div>
+          <ion-item>
+            <!--<ion-label position="fixed">Confirm password</ion-label>-->
+            <ion-input name="confirm_password" type="password" formControlName="confirm_password"
+                       placeholder="Confirm password"></ion-input>
+          </ion-item>
+          <div *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger"
+               class="alert alert-danger">
+            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(changeForm.get('matchingPasswords'), 'confirm_password', validation_messages) }}</span>
           </div>
-        </div>
-      </div>
+          <div *ngIf="old_password.valid && confirm_password.valid && changeForm.get('matchingPasswords').invalid"
+               class="alert">
+            <span class="text-ios-danger">Passwords do not match</span>
+          </div>
+          </div>
 
       <ion-item class="submit-btn-container">
         <ion-row>
@@ -64,5 +54,4 @@
         </ion-row>
       </ion-item>
     </form>
-  </ion-list>
 </ion-content>

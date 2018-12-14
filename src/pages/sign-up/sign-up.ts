@@ -113,7 +113,8 @@ export class SignUpPage {
   submitRegister(): void {
     this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
         console.log(value);
-        this.msgSrv.presentAlert('Message', 'Register is successful. Check your email');
+        // this.msgSrv.presentAlert('Message', 'Register is successful. Check your email');
+        this.msgSrv.presentAlert('Message', 'Register is successful. Please login');
       },
       error => {
         console.log(error);

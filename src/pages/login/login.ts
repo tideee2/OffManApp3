@@ -53,7 +53,6 @@ export class LoginPage {
         pattern: 'Your password must contain at least one uppercase, one lowercase, and one number'
       },
     };
-    console.log(this.network.type);
   }
 
   ionViewDidLoad() {

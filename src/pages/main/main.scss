@@ -1,6 +1,6 @@
 page-main {
+  $text-color: red;
   ion-content {
-    background-color: #33333D !important;
     ion-card {
       box-shadow: none !important;
       background-color: #33333D !important;
@@ -42,6 +42,7 @@ page-main {
           justify-content: space-between;
           padding-bottom: 2vh;
           align-items: center;
+          color: #33333D;
         }
         .tr-cont-lvl1 {
           padding: 2px 0;
@@ -49,6 +50,7 @@ page-main {
         .transaction-container {
 
           display: flex;
+          color: #33333D;
           justify-content: space-between;
           .col:nth-last-child(1) {
             display: flex;
@@ -94,8 +96,11 @@ page-main {
       }
     }
     ion-fab {
-      button {
-        background-color: #FFCB37 !important;
+      &.add-btn{
+        z-index: 100;
+        button {
+          background-color: #FFCB37 !important;
+        }
       }
     }
     ion-infinite-scroll-content {
@@ -141,6 +146,8 @@ page-main {
     .info-container {
       padding: 10px;
       color: #fff;
+      text-transform: uppercase;
+      font-size: 1.2rem;
       //background-color: #fff;
     }
   }

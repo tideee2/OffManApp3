@@ -20,6 +20,7 @@ export class ForgotPage {
               public authSrv: AuthServiceProvider,
               public msgSrv: ShowMessageProvider,
               public errorSrv: ErrorsProvider,
+              public alertCtrl: AlertController,
               public alertController: AlertController) {
 
     this.forgotForm = this.formBuilder.group({
@@ -41,13 +42,27 @@ export class ForgotPage {
   get email() { return this.forgotForm.get('email'); }
 
   submitForgot(): void {
-    this.authSrv.forgotPassword(this.email.value).subscribe( (value) => {
-        this.msgSrv.presentAlert('Message', 'Email has been sent');
-        this.navCtrl.pop();
-      },
-      error => {
-        this.msgSrv.presentAlert('Error', error.statusText );
-      });
+    let alert = this.alertCtrl.create({
+      title: 'Message',
+      message: 'This function will be add soon',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+    alert.present();
+    // this.authSrv.forgotPassword(this.email.value).subscribe( (value) => {
+    //     this.msgSrv.presentAlert('Message', 'Email has been sent');
+    //     this.navCtrl.pop();
+    //   },
+    //   error => {
+    //     this.msgSrv.presentAlert('Error', error.statusText );
+    //   });
   }
 
 }

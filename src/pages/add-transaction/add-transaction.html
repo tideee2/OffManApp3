@@ -22,7 +22,7 @@
     <ion-item *ngIf="transactionType.value === 'decrease'">
       <ion-label>Select category</ion-label>
       <ion-select formControlName="category" name="category">
-        <ion-option value="{{x}}" *ngFor="let x of listOfCategories">{{x}}</ion-option>
+        <ion-option value="{{x}}" *ngFor="let x of listOfCategories.slice(0,-1)">{{x}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item *ngIf="transactionType.value === 'increase'" hidden>
@@ -59,7 +59,7 @@
         <button ion-button clear full (click)="cancel()">Cancel</button>
       </ion-col>
       <ion-col size="6">
-        <button ion-button clear full (click)="submitPurchase()" class="sbt-btn" [disabled]="!transactionForm.valid">
+        <button ion-button clear full (click)="submitPurchase()" class="sbt-btn" color="orange" [disabled]="!transactionForm.valid">
           Submit
         </button>
       </ion-col>

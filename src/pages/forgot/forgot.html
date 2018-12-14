@@ -5,9 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
     <form [formGroup]="forgotForm">
-      <div class="input-container">
         <ion-item no-padding>
           <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
         </ion-item>
@@ -15,14 +13,10 @@
              class="alert alert-danger" style="color:#F53D3D">
           <span class="text-ios-danger">{{ errorSrv.getErrorMessage(forgotForm, 'email', validation_messages) }}</span>
         </div>
-      </div>
-      <ion-item class="submit-btn-container" text-center no-lines>
-        <button ion-button class="submit-btn ion-col-3" expand="block" no-padding
-                (click)="submitForgot()" clear [disabled]="!forgotForm.valid">
+        <button ion-button expand="block" no-padding color="orange" block type="submit" class="sbt-btn"
+                (click)="submitForgot()" [disabled]="!forgotForm.valid">
           Change password
         </button>
-      </ion-item>
     </form>
 
-  </ion-list>
 </ion-content>

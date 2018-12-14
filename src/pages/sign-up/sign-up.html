@@ -3,60 +3,48 @@
     <div>Office</div>
     <div>Management</div>
   </div>
-  <ion-list>
     <form [formGroup]="regForm">
-      <div class="input-container">
-        <ion-item>
-          <ion-input class="form-control" id="username" formControlName="username"
-                     placeholder="Enter username"></ion-input>
-        </ion-item>
-        <div *ngIf="username.invalid && (username.dirty || username.touched)" color="alert">
-          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm, 'username', validation_messages) }}</span>
-        </div>
-      </div>
-      <div class="input-container">
-        <ion-item>
+      <ion-item no-padding>
+        <ion-input class="form-control" id="username" formControlName="username"
+                   placeholder="Enter username"></ion-input>
+      </ion-item>
+      <p *ngIf="username.invalid && (username.dirty || username.touched)" color="alert">
+        <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm, 'username', validation_messages) }}</span>
+      </p>
+
+      <ion-item no-padding>
           <ion-input name="email" formControlName="email" placeholder="Enter email"></ion-input>
-        </ion-item>
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert">
+      </ion-item>
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" color="danger" class="alert">
           <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm, 'email', validation_messages) }}</span>
-        </div>
-      </div>
-      <div formGroupName="matchingPasswords">
-        <div class="input-container">
-          <ion-item>
-            <ion-input name="password" type="password" formControlName="password"
-                       placeholder="Enter password"></ion-input>
-          </ion-item>
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" color="danger"
-               class="alert alert-danger">
-            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'password', validation_messages) }}</span>
-          </div>
-        </div>
-        <div class="input-container">
-          <ion-item>
-            <ion-input name="confirm_password" type="password" formControlName="confirm_password"
-                       placeholder="Confirm password"></ion-input>
-          </ion-item>
-          <div *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger"
-               class="alert alert-danger">
-            <!--<span class="text-ios-danger">{{ getErrorMessage('confirm_password') }}</span>-->
-            <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'confirm_password', validation_messages) }}</span>
-          </div>
-          <div *ngIf="password.valid && confirm_password.valid && regForm.get('matchingPasswords').invalid"
-               class="alert">
-            <span class="text-ios-danger">Passwords do not match</span>
-          </div>
-        </div>
       </div>
 
-      <ion-label class="submit-btn-container" text-center>
-        <button ion-button class="submit-btn ion-col-3" no-padding
-                (click)="submitRegister()" clear [disabled]="!regForm.valid">Create account
-        </button>
-      </ion-label>
+      <div formGroupName="matchingPasswords">
+        <ion-item no-padding>
+          <ion-input name="password" type="password" formControlName="password"
+                     placeholder="Enter password"></ion-input>
+        </ion-item>
+        <p *ngIf="password.invalid && (password.dirty || password.touched)" color="danger"
+             class="alert alert-danger">
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'password', validation_messages) }}</span>
+        </p>
+        <ion-item no-padding>
+          <ion-input name="confirm_password" type="password" formControlName="confirm_password"
+                     placeholder="Confirm password"></ion-input>
+        </ion-item>
+        <p *ngIf="confirm_password.invalid && (confirm_password.dirty || confirm_password.touched)" color="danger"
+             class="alert alert-danger">
+          <span class="text-ios-danger">{{ errorSrv.getErrorMessage(regForm.get('matchingPasswords'), 'confirm_password', validation_messages) }}</span>
+        </p>
+        <p *ngIf="password.valid && confirm_password.valid && regForm.get('matchingPasswords').invalid"
+             class="alert">
+          <span class="text-ios-danger">Passwords do not match</span>
+        </p>
+      </div>
+
+      <button ion-button no-padding color="orange" block type="submit" class="sbt-btn"
+                (click)="submitRegister()" [disabled]="!regForm.valid">Create account</button>
     </form>
 
-  </ion-list>
-  <ion-label class="login-btn" text-center (click)="loginClick()">Already have one? Sign in</ion-label>
+  <button ion-button class="login-btn" clear block text-center color="light" (click)="loginClick()">Already have one? Sign in</button>
 </ion-content>

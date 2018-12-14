@@ -33,6 +33,8 @@ export class MainPage {
   public finishDate ='';
   public showFilterCancel = false;
   public showInfo = false;
+  public colorValues;
+  public colors;
 
   constructor(public navCtrl: NavController,
               public auth: AuthServiceProvider,
@@ -42,15 +44,29 @@ export class MainPage {
               public transSrv: TransactionProvider) {
     // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
-    this.transSrv.getTransactions('', 1)
-      .subscribe((data) => {
-          console.log(data);
-          this.storage.user.transactions = data.transactions || [];
-          this.storage.user.balance = data.user.balance;
-        },
-        error => {
-          console.log(error);
-        });
+    // this.transSrv.getTransactions('', 1)
+    //   .subscribe((data) => {
+    //       console.log(data);
+    //       this.storage.user.transactions = data.transactions || [];
+    //       this.storage.user.balance = data.user.balance;
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     });
+    this.transSrv.getTransactionsByCategory({
+      type: '',
+      page: this.page,
+      category: this.selectedCat,
+      start: this.startDate,
+      finish: this.finishDate
+    }).subscribe((data) => {
+            console.log(data);
+            this.storage.user.transactions = data.transactions || [];
+            this.storage.user.balance = data.user.balance;
+          },
+          error => {
+            console.log(error);
+          });
   }
 
   ionViewDidLoad() {
@@ -94,15 +110,34 @@ export class MainPage {
   }
 
   deletePurchase(transaction?) {
-    console.log(transaction);
-    this.storage.user.transactions = this.storage.user.transactions.filter( (x) => x._id !== transaction._id)
-    this.transSrv.deleteTransaction(transaction).subscribe( trans => {
-      console.log(trans)
-    }, (err) => {
-      console.warn(err);
-    })
-    ;
-  }
+      let alert = this.alertCtrl.create({
+        title: 'Delete transaction',
+        message: 'Do you want delete this transaction?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+
+            }
+          },
+          {
+            text: 'Submit',
+            handler: () => {
+              console.log(transaction);
+              this.storage.user.transactions = this.storage.user.transactions.filter( (x) => x._id !== transaction._id);
+              this.transSrv.deleteTransaction(transaction).subscribe( data => {
+                this.storage.user.balance = data.balance;
+                localStorage.setItem('user', JSON.stringify(this.storage.user));
+              }, (err) => {
+                console.warn(err);
+              });
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
 
   showButton(x: HTMLElement) {
     // @ts-ignore
@@ -163,6 +198,25 @@ export class MainPage {
   }
 
   displayChart() {
+    let categories = {
+      'increase': 0,
+      'food': 0,
+      'household goods': 0,
+      'services': 0,
+      'others': 0,
+      'coffee': 0
+    };
+    // this.storage.user.transactions.forEach(x => {
+    //   categories[x.category] += x.cost;
+    // });
+    // console.log(categories);
+    // // @ts-ignore
+    // const colorValues = Object.values(categories);
+    // // @ts-ignore
+    // const colors = Object.values(Vars.catColors);
+    // console.log(colorValues);
+    // console.log(colors);
+
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {

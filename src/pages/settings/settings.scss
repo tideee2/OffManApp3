@@ -67,7 +67,7 @@ page-settings {
     font-weight: 700;
   }
   .input-container {
-    height: 10vh;
+    //height: 10vh;
   }
   .check-icon {
     border: 1px solid #fff;
@@ -76,9 +76,14 @@ page-settings {
   ion-input {
     border-bottom: 1px solid #fff;
   }
-
-  .img-container {
-    background: #33333D;
+  .logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .img-container {
+      width:50%;
+      background: #33333D;
+    }
   }
   ion-item.btn {
     ion-button {
@@ -95,12 +100,14 @@ page-settings {
     background-color: transparent;
     border: 1px solid #FFCB37 !important;
     border-radius: 5px;
+    margin-top: 20px;
     .item-inner {
       height: 0px;
     }
   }
   .logout-btn {
-    margin-top: 5vh;
+    //margin-top: 5vh;
+    margin-top: 40px;
     .item-inner {
       padding: 0 !important;
       ion-label {

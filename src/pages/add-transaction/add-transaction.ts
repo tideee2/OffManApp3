@@ -32,6 +32,7 @@ export class AddTransactionPage {
 
   listOfCategories = Vars.categories;
   listOfIncrease = Vars.incoming;
+  // localCategories = this.listOfCategories.splice(-1,1);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
@@ -41,11 +42,13 @@ export class AddTransactionPage {
               public transSrv: TransactionProvider,
               public storageSrv: StorageProvider) {
 
+    // this.listOfCategories.splice(-1,1);
+
     this.transactionForm = this.formBuilder.group({
       transactionType: ['', Validators.required],
       cost: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9 ]*')
+        Validators.pattern('^(\\d*\\.)?\\d+$')
       ])],
       category: ['', Validators.required],
       description: ['',
@@ -125,20 +128,23 @@ export class AddTransactionPage {
     if (this.transaction._id) {
       this.editTransaction();
     } else {
-      this.addUser();
+      this.addTrans();
     }
     this.navCtrl.pop();
   }
 
-  addUser(){
+  addTrans(){
     const sendTransaction = {
       description: this.description.value || 'balance increase',
       type: this.transactionType.value,
       cost: this.cost.value,
       category: this.category.value
     };
+    console.log(sendTransaction);
     this.transSrv.addTransactions(sendTransaction)
       .subscribe(value => {
+        console.log('-----');
+        console.log(value);
           this.msgSrv.presentAlert('Message', 'transaction add successful')
           console.log(this.storageSrv);
           this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *

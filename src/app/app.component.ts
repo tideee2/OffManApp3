@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Events, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -9,6 +9,8 @@ import {StorageProvider} from "../providers/storage/storage";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Network } from '@ionic-native/network';
 import { NointernetPage } from '../pages/nointernet/nointernet';
+import { ForgotPage } from '../pages/forgot/forgot';
+import { NetworkProvider } from '../providers/network-service/network-service';
 @Component({
   templateUrl: 'app.html'
 })
@@ -16,11 +18,9 @@ export class MyApp {
   rootPage:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, storage: StorageProvider,
-              network: Network
-              // private screenOrientation: ScreenOrientation
+              network: Network, networkProvider: NetworkProvider, events: Events, public toastCtrl: ToastController
   ) {
-    // console.log(this.screenOrientation.type);
-    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+
     platform.ready().then(() => {
 
       statusBar.styleDefault();
@@ -28,13 +28,8 @@ export class MyApp {
       if (splashScreen) {
         setTimeout(() => {
           splashScreen.hide();
-        }, 1000);
+        }, 200);
       }
-      console.log(network.type);
-
-      // if (network.type == 'none') {
-      //    this.rootPage = NointernetPage;
-      // } else { }
 
       if (localStorage.getItem('x-access-token') !== null) {
           // @todo replace with one object
@@ -44,7 +39,39 @@ export class MyApp {
           this.rootPage = LoginPage;
         }
 
+      networkProvider.initializeNetworkEvents();
+
+      events.subscribe('network:offline', () => {
+        this.presentToast('You are offline');
+        setTimeout(() => {
+          this.rootPage = NointernetPage;
+        },1000);
+      });
+
+      events.subscribe('network:online', () => {
+        this.presentToast('You are online');
+        setTimeout(() => {
+          this.rootPage = LoginPage;
+        },1000);
+      });
+
     });
+
   }
+
+  presentToast(text: string) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+  }
+
 }
 
