@@ -44,15 +44,6 @@ export class MainPage {
               public transSrv: TransactionProvider) {
     // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
-    // this.transSrv.getTransactions('', 1)
-    //   .subscribe((data) => {
-    //       console.log(data);
-    //       this.storage.user.transactions = data.transactions || [];
-    //       this.storage.user.balance = data.user.balance;
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
     this.transSrv.getTransactionsByCategory({
       type: '',
       page: this.page,
@@ -206,6 +197,7 @@ export class MainPage {
       'others': 0,
       'coffee': 0
     };
+    // todo chart with categories
     // this.storage.user.transactions.forEach(x => {
     //   categories[x.category] += x.cost;
     // });

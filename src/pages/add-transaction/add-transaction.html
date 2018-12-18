@@ -14,11 +14,7 @@
         <ion-option value="increase">Incoming</ion-option>
       </ion-select>
     </ion-item>
-    <!--
-    @todo when user select type above, select category, then select another type, and no select new category,
-    then "submit" btn is active and form is valid
-    -->
-    <!--<ion-item *ngIf="transactionType.value === 'decrease'">-->
+
     <ion-item *ngIf="transactionType.value === 'decrease'">
       <ion-label>Select category</ion-label>
       <ion-select formControlName="category" name="category">
@@ -27,9 +23,6 @@
     </ion-item>
     <ion-item *ngIf="transactionType.value === 'increase'" hidden>
       <ion-label>Select category</ion-label>
-      <!--<ion-select formControlName="category" name="category">-->
-        <!--<ion-option value="{{listOfIncrease[0]}}" [selected]>{{listOfIncrease[0]}}</ion-option>-->
-      <!--</ion-select>-->
       <ion-input formControlName="category" value="{{listOfIncrease[0]}}"></ion-input>
     </ion-item>
 

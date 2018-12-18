@@ -23,7 +23,7 @@ export class ChangePage {
   public changeForm: FormGroup;
   public validation_messages: Object;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController,
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
               public http: HttpClient,

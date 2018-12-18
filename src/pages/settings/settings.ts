@@ -29,10 +29,9 @@ export class SettingsPage {
 
   @ViewChildren('qqq') inputName;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController,
               public formBuilder: FormBuilder,
               public authSrv: AuthServiceProvider,
-              public alertController: AlertController,
               public msgSrv: ShowMessageProvider,
               public storageSrv: StorageProvider,
               public errorSrv: ErrorsProvider,
@@ -54,10 +53,8 @@ export class SettingsPage {
         pattern: 'Your username must contain only letters.'
       }
     };
-    // console.log(this.transService.name);
-    // console.log(localStorage.getItem('name'));
+
     // @ts-ignore
-    // this.changePassForm.controls.username.value = this.transService.name || localStorage.getItem('name');
     this.changePassForm.controls.username.value = this.storageSrv.user.name;
   }
 

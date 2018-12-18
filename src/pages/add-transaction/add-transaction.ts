@@ -32,7 +32,6 @@ export class AddTransactionPage {
 
   listOfCategories = Vars.categories;
   listOfIncrease = Vars.incoming;
-  // localCategories = this.listOfCategories.splice(-1,1);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
@@ -41,8 +40,6 @@ export class AddTransactionPage {
               public msgSrv: ShowMessageProvider,
               public transSrv: TransactionProvider,
               public storageSrv: StorageProvider) {
-
-    // this.listOfCategories.splice(-1,1);
 
     this.transactionForm = this.formBuilder.group({
       transactionType: ['', Validators.required],

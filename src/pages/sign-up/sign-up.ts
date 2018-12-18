@@ -15,12 +15,12 @@ export class SignUpPage {
   public EMAILPATTERN = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
   public validation_messages;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController,
               public formBuilder: FormBuilder,
               public auth: AuthServiceProvider,
               public errorSrv: ErrorsProvider,
               public msgSrv: ShowMessageProvider,
-              public alertController: AlertController) {
+              ) {
     this.regForm = formBuilder.group({
       username: [null,
         Validators.compose([
@@ -113,7 +113,6 @@ export class SignUpPage {
   submitRegister(): void {
     this.auth.registerUser(this.username.value, this.email.value, this.password.value).subscribe(value => {
         console.log(value);
-        // this.msgSrv.presentAlert('Message', 'Register is successful. Check your email');
         this.msgSrv.presentAlert('Message', 'Register is successful. Please login');
       },
       error => {
