@@ -1,7 +1,7 @@
 page-settings {
   ion-navbar {
     .toolbar-background {
-      background-color: #383840;
+      background-color: #344955;
     }
     button,
     .toolbar-title {
@@ -9,7 +9,7 @@ page-settings {
     }
   }
   ion-content {
-    background-color: #33333D !important;
+    background-color: #232f34 !important;
   }
   .confirm-btn {
     .button-inner {
@@ -17,7 +17,7 @@ page-settings {
     }
   }
   form {
-    background-color: #33333D;
+    background-color: #232f34;
     .input-container {
       span {
         margin-left: 2vh;
@@ -27,7 +27,7 @@ page-settings {
       }
     }
     ion-item {
-      background: #33333D !important;
+      background: #232f34 !important;
       color: #fff;
       text-align: center;
       padding: 0 !important;
@@ -82,14 +82,14 @@ page-settings {
     align-items: center;
     .img-container {
       width:50%;
-      background: #33333D;
+      background: #232f34;
     }
   }
   ion-item.btn {
     ion-button {
       margin: 0 auto;
       --box-shadow: none;
-      border: 1px solid #DB952B;
+      border: 1px solid #f9aa33;
       border-radius: 5px;
       button {
         text-align: center !important;
@@ -98,7 +98,7 @@ page-settings {
   }
   .change-btn {
     background-color: transparent;
-    border: 1px solid #FFCB37 !important;
+    border: 1px solid #f9aa33 !important;
     border-radius: 5px;
     margin-top: 20px;
     .item-inner {

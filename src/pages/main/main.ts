@@ -67,7 +67,7 @@ export class MainPage {
 
   loadData(event) {
 
-    // setTimeout(() => {
+    setTimeout(() => {
       this.page++;
       console.log(this.selectedCat, ' ', this.page);
       this.transSrv.getTransactionsByCategory({
@@ -91,7 +91,7 @@ export class MainPage {
             console.log(error);
           });
       event.complete();
-    // }, 300);
+    }, 100);
   }
 
   addPurchase(transaction?) {
