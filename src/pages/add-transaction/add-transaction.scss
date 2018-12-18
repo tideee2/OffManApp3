@@ -41,4 +41,16 @@ page-add-transaction {
       }
     }
   }
+  ion-select {
+    text-transform: capitalize;
+  }
+}
+.alert-wrapper {
+  .alert-radio-group {
+    .button-inner {
+      .alert-radio-label {
+        text-transform: capitalize;
+      }
+    }
+  }
 }
