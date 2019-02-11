@@ -30,16 +30,18 @@ export class MyApp {
           splashScreen.hide();
         }, 200);
       }
+      //
+      // if (localStorage.getItem('x-access-token') !== null) {
+      //     // @todo replace with one object
+      //     storage.user = JSON.parse(localStorage.getItem('user'));
+      //     this.rootPage = MainPage;
+      //   } else {
+      //     this.rootPage = LoginPage;
+      //   }
 
-      if (localStorage.getItem('x-access-token') !== null) {
-          // @todo replace with one object
-          storage.user = JSON.parse(localStorage.getItem('user'));
-          this.rootPage = MainPage;
-        } else {
-          this.rootPage = LoginPage;
-        }
+      this.rootPage = MainPage;
 
-      networkProvider.initializeNetworkEvents();
+      // networkProvider.initializeNetworkEvents();
 
       events.subscribe('network:offline', () => {
         this.presentToast('You are offline');

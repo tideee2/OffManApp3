@@ -9,7 +9,8 @@ import { TransactionProvider } from '../../providers/transaction/transaction-ser
 import { Vars } from '../../config/settings';
 import { ModalController, ViewController } from 'ionic-angular';
 import { ChooseDatePage } from '../choose-date/choose-date';
-
+import {IonicStorageModule} from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 @IonicPage()
 @Component({
   selector: 'page-main',
@@ -35,34 +36,48 @@ export class MainPage {
   public showInfo = false;
   public colorValues;
   public colors;
+  public user ;
 
   constructor(public navCtrl: NavController,
               public auth: AuthServiceProvider,
               public storage: StorageProvider,
+              public ionicStorage: Storage,
               public alertCtrl: AlertController,
               public modalCtrl: ModalController,
               public transSrv: TransactionProvider) {
+
+    this.getStartData();
     // this.storage.user = JSON.parse(localStorage.getItem('user'));
 
-    this.transSrv.getTransactionsByCategory({
-      type: '',
-      page: this.page,
-      category: this.selectedCat,
-      start: this.startDate,
-      finish: this.finishDate
-    }).subscribe((data) => {
-            console.log(data);
-            this.storage.user.transactions = data.transactions || [];
-            this.storage.user.balance = data.user.balance;
-          },
-          error => {
-            console.log(error);
-          });
+    // this.transSrv.getTransactionsByCategory({
+    //   type: '',
+    //   page: this.page,
+    //   category: this.selectedCat,
+    //   start: this.startDate,
+    //   finish: this.finishDate
+    // }).subscribe((data) => {
+    //         console.log(data);
+    //         this.storage.user.transactions = data.transactions || [];
+    //         this.storage.user.balance = data.user.balance;
+    //       },
+    //       error => {
+    //         console.log(error);
+    //       });
   }
 
   ionViewDidLoad() {
-    this.displayChart();
-    console.log(this.storage.user.balance);
+    // this.displayChart();
+    // console.log(this.storage.user.balance);
+
+  }
+
+  async getStartData() {
+    this.user = {
+      username: await this.storage.username,
+      balance: await this.storage.balance,
+      transactions: await this.storage.transactions
+    };
+    console.log(this.user);
   }
 
   loadData(event) {

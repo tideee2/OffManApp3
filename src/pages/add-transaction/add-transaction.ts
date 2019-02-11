@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MainPage } from "../main/main";
-import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
-import { StorageProvider } from "../../providers/storage/storage";
-import { ErrorsProvider } from '../../providers/errors/errors';
-import { Transaction, TransactionModel } from '../../models/transaction-model';
-import { TransactionProvider } from '../../providers/transaction/transaction-service';
-import { ShowMessageProvider } from '../../providers/show-message/show-message';
-import { V } from '@angular/core/src/render3';
-import { Vars } from '../../config/settings'
+import {Component, Input} from '@angular/core';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MainPage} from "../main/main";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {StorageProvider} from "../../providers/storage/storage";
+import {ErrorsProvider} from '../../providers/errors/errors';
+import {Transaction, TransactionModel} from '../../models/transaction-model';
+import {TransactionProvider} from '../../providers/transaction/transaction-service';
+import {ShowMessageProvider} from '../../providers/show-message/show-message';
+import {V} from '@angular/core/src/render3';
+import {Vars} from '../../config/settings'
+
 /**
  * Generated class for the AddTransactionPage page.
  *
@@ -35,11 +36,12 @@ export class AddTransactionPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthServiceProvider,
+
               public formBuilder: FormBuilder,
               public errorSrv: ErrorsProvider,
               public msgSrv: ShowMessageProvider,
               public transSrv: TransactionProvider,
-              public storageSrv: StorageProvider) {
+              public storage: StorageProvider) {
 
     this.transactionForm = this.formBuilder.group({
       transactionType: ['', Validators.required],
@@ -130,56 +132,76 @@ export class AddTransactionPage {
     this.navCtrl.pop();
   }
 
-  addTrans(){
+  submitOfflinePurchase() {
+    if (this.transaction._id) {
+      // this.editOfflineTransaction();
+    } else {
+      this.addOfflineTrans();
+    }
+    this.navCtrl.pop();
+  }
+
+  addOfflineTrans() {
     const sendTransaction = {
       description: this.description.value || 'balance increase',
       type: this.transactionType.value,
       cost: this.cost.value,
       category: this.category.value
     };
-    console.log(sendTransaction);
-    this.transSrv.addTransactions(sendTransaction)
-      .subscribe(value => {
-        console.log('-----');
-        console.log(value);
-          this.msgSrv.presentAlert('Message', 'transaction add successful')
-          console.log(this.storageSrv);
-          this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
-            sendTransaction.cost;
-          this.storageSrv.user.transactions.unshift(value.transaction.q);
-          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
 
-        },
-        error => {
-          console.log(error);
-          this.msgSrv.presentAlert('Error', error.error)
-        });
+    console.log(sendTransaction);
+  }
+
+  addTrans() {
+    // const sendTransaction = {
+    //   description: this.description.value || 'balance increase',
+    //   type: this.transactionType.value,
+    //   cost: this.cost.value,
+    //   category: this.category.value
+    // };
+    // console.log(sendTransaction);
+    // this.transSrv.addTransactions(sendTransaction)
+    //   .subscribe(value => {
+    //       console.log('-----');
+    //       console.log(value);
+    //       this.msgSrv.presentAlert('Message', 'transaction add successful')
+    //       console.log(this.storageSrv);
+    //       this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
+    //         sendTransaction.cost;
+    //       this.storageSrv.user.transactions.unshift(value.transaction.q);
+    //       localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
+    //
+    //     },
+    //     error => {
+    //       console.log(error);
+    //       this.msgSrv.presentAlert('Error', error.error)
+    //     });
   }
 
   editTransaction() {
-    const sendTransaction = {
-      _id: this.transaction._id,
-      description: this.description.value || 'balance increase',
-      type: this.transactionType.value,
-      cost: this.cost.value,
-      category: this.category.value
-    };
-    this.transSrv.editTransactions(sendTransaction)
-      .subscribe(value => {
-          this.msgSrv.presentAlert('Message', 'transaction edit successful');
-          console.log(this.storageSrv);
-          this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
-            Math.abs(sendTransaction.cost - this.cost.value);
-          this.storageSrv.user.transactions.filter((x) => {
-            return value.transaction.q._id !== x._id;
-          })
-          localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
-
-        },
-        error => {
-          console.log(error);
-          this.msgSrv.presentAlert('Error', error.error)
-        });
+    // const sendTransaction = {
+    //   _id: this.transaction._id,
+    //   description: this.description.value || 'balance increase',
+    //   type: this.transactionType.value,
+    //   cost: this.cost.value,
+    //   category: this.category.value
+    // };
+    // this.transSrv.editTransactions(sendTransaction)
+    //   .subscribe(value => {
+    //       this.msgSrv.presentAlert('Message', 'transaction edit successful');
+    //       console.log(this.storageSrv);
+    //       this.storageSrv.user.balance = value.user.balance + (sendTransaction.type === 'increase' ? 1 : -1) *
+    //         Math.abs(sendTransaction.cost - this.cost.value);
+    //       this.storageSrv.user.transactions.filter((x) => {
+    //         return value.transaction.q._id !== x._id;
+    //       })
+    //       localStorage.setItem('user', JSON.stringify(this.storageSrv.user));
+    //
+    //     },
+    //     error => {
+    //       console.log(error);
+    //       this.msgSrv.presentAlert('Error', error.error)
+    //     });
   }
 
   cancel(): void {

@@ -24,6 +24,7 @@ import { ChooseDatePage } from '../pages/choose-date/choose-date';
 import { Network } from '@ionic-native/network';
 import { NointernetPage } from '../pages/nointernet/nointernet';
 import { NetworkProvider } from '../providers/network-service/network-service';
+import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { NetworkProvider } from '../providers/network-service/network-service';
   imports: [
     BrowserModule,
     HttpClientModule,
-
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
